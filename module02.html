@@ -64,10 +64,10 @@
   .modal-body { padding: 1.5rem 1.25rem; }
   .modal-body p { font-family: 'EB Garamond', serif; font-size: 0.95rem; line-height: 1.88; color: rgba(200,196,255,0.62); margin-bottom: 1rem; }
   .modal-body p:last-of-type { margin-bottom: 0; }
-  .modal-footnotes { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
-  .footnote-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .modal-footnotes a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; margin-bottom: 0.3rem; opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem; }
-  .modal-footnotes a:hover { opacity: 1; }
+  .modal-link { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
+  .link-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .modal-link a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+  .modal-link a:hover { opacity: 1; }
   footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid rgba(var(--cr),0.08); font-family: 'Courier Prime', monospace; font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,196,255,0.12); }
 </style>
 </head>
@@ -123,13 +123,58 @@
 
 <script>
 const moduleData = {
-  "1": { img:"human1.png", title:"", p1:"Human1 — add student reflection here.", p2:"Human1 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "2": { img:"human2.png", title:"", p1:"Human2 — add student reflection here.", p2:"Human2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "3": { img:"human3.png", title:"", p1:"Human3 — add student reflection here.", p2:"Human3 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4": { img:"human4.png", title:"", p1:"Human4 — add student reflection here.", p2:"Human4 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5": { img:"human5.png", title:"", p1:"Human5 — add student reflection here.", p2:"Human5 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6": { img:"human6.png", title:"", p1:"Human6 — add student reflection here.", p2:"Human6 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "7": { img:"human7.png", title:"", p1:"Human7 — add student reflection here.", p2:"Human7 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1": {
+    img: "human1.png",
+    title: "Christian, Nhat, Zhiyun",
+    p1: "The conflict between human cognition and continuous connectivity is explored in this piece of art. The artwork depicts the human body as both a biological organ and a node inside a data system by fusing networked interfaces with organic anatomy.",
+    p2: "A human is positioned beneath a curved screen at the bottom, and there is a direct physical connection between the human and the machine via thick cables that wrap around the head and stretch upward into the display. Like a control panel, the light screen arcs, implying monitoring, submersion, and reliance on digital infrastructure. The image is linked to more general discussions about device addiction, data extraction, and the urge to stay online by the strong red writing that reads, \"BE CONNECTED,\" echoing the advertising language of tech companies.",
+    p3: "The striking red writing challenges the audience, inviting deeper engagement with the work—moving it from observation to confrontation. What happens to the barriers between your mind and the network when connection turns into an order instead of an option?",
+    link: "https://www.zine.baby/"
+  },
+  "2": {
+    img: "human2.png",
+    title: "Ethan, Chloe, Jo",
+    p1: "Our speculative art piece, Hey Friend, is a virtual reality experience that looks into themes of identity, human interaction, and artificial intelligence. It investigates the idea of human identity through the customization of virtual avatars and the continuous evolution of AI's intelligence and adaptation of humanistic characteristics. This prompted the thought of how you would differentiate between AI and humans in a virtual environment.",
+    p2: "The project will take place in virtual reality, functioning as an online game/experience where you'll be placed into a fully explorable virtual recreation of real-world locations. Inside the world, you'll be surrounded by different avatars, created and controlled by people or AI. The avatars would have limitless customizable options, allowing full creative freedom. But this also applies to the AI that essentially becomes advanced NPCs pretending to be human. There isn't necessarily a goal or win condition, but once you are finished playing, you'll be told how many humans and AI you interacted with.",
+    p3: "Hey Friend asks people to consider what makes a human, human. With AI constantly evolving and being trained to become more human-like, could you tell the difference if it were standing directly in front of you?",
+    link: "https://www.zine.baby/ethan/group-2-zine"
+  },
+  "3": {
+    img: "human3.png",
+    title: "Phin, Starr, Brianna",
+    p1: "My Computer is a speculative computer design that can physically transform into different appearances, depending on which 4 versions (glitter, crystals, metallic, transparent) I am feeling for the day. This computer has all the necessities and abilities that I need, such as good speakers, the ability to grow another monitor, built-in projector, every port needed, does not ever overheat, runs every program in existence, has a detachable screen, can float, and it can project holograms.",
+    p2: "I like to have the liberty to change the look of my things. I would love to be able to do that with a computer, but I would want to push that change even further. I like the idea of being able to express yourself through your own technology, but imagine if we could do more than just change our computer's wallpaper, the look of the folders, cursor appearance, or cases—and be able to physically transform it into something else.",
+    link: "https://www.zine.baby/phin-nguyen-sjsu-edu/art104"
+  },
+  "4": {
+    img: "human4.png",
+    title: "Gabrielle C., Emis C., David N.",
+    p1: "\"Avatar Creator\" is a commentary on the relationship between digital identities and real ones, and how the perception of these digital avatars harms their creators. The work reflects not only upon inaccurate depictions of self, but also the ways in which technology encourages this dissociation from one's real identity.",
+    p2: "Our piece depicts one such user of an avatar creator, changing aspects about themselves to the point of being unrecognizable. In dull, dark tones, the human creates a stark contrast to all the bright, glowing windows of the avatar creator. Each window poses the options of this creation system, mimicking real life character customization options, with sliders and folders that store aspects of the user to change. In this piece, the user abuses these tools to create an avatar so far removed from themselves—an anime-esque character with no resemblance to its creator—that it causes an error window to appear, yet there is no solution to fix it, only more changes to be made.",
+    p3: "While the system is only a fictional depiction, \"Avatar Creator\" asks the question of how far these avatars can go, of how much about your digital self you can change with it still being you.",
+    link: "https://www.zine.baby/gabrielle/group-4-mod-2"
+  },
+  "5": {
+    img: "human5.png",
+    title: "Catherine, Rosalva, Rosemarie",
+    p1: "The digital illustration was made to explore the mental impacts that social media has on women and their body image. The piece also explores how vulnerable it feels when constantly exposing yourself on social media.",
+    p2: "The design of the illustration was to showcase the effects of social media on women by displaying phone cameras focusing on certain parts of the body—the face, chest area, and stomach. With the phone screens, the inside of the body is viewable, showcasing how exposing it is to constantly post yourself on the internet. There are also distinguishable social media icons like the followers and like button to show what many young people seek after when posting on social media. This is further cemented by the woman directly looking at the like button, showcasing where her attention is at.",
+    p3: "This begs the question: what parts of ourselves are we exposing when we post on social media?",
+    link: "https://www.zine.baby/rosalva/test"
+  },
+  "6": {
+    img: "human6.png",
+    title: "Tai, David, Samantha",
+    p1: "This design is a concept for a future where humans are monitored by AI through a brain chip, a watch, and an exoskeleton.",
+    p2: "The Brain Chip sits inside your head and tracks how much you rely on AI to think. The Watch shows your \"AI Score\"—if you use AI too much, your score goes up, and it becomes harder to get a job; you can also scan other people's watches to see their scores. The Exoskeleton is a suit that \"fixes\" your body: if you make a mistake while moving, the suit automatically moves your arms or legs to do it the \"right\" way.",
+    link: "https://www.zine.baby/"
+  },
+  "7": {
+    img: "human7.png",
+    title: "Ryan, David, Miah, Stella",
+    p1: "Humanized Roomba: a cleaning robot that has more functions than intended. With emotional output and human personality traits, this Roomba can become more than just a tool. Integrating human functions into technology, the Humanized Roomba becomes an entity that plays with the idea of giving robotics a personality—and free thinking.",
+    link: "https://www.zine.baby/ryan/group-7-speculative-art-showcase"
+  }
 };
 
 function buildGrid() {
@@ -159,20 +204,26 @@ function openModal(id) {
   const padId = String(id).padStart(2,'0');
   document.getElementById('modal-mod-label').textContent = `MOD·02 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
+
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="images/${d.img}" alt="artifact ${id}" onerror="this.outerHTML='<div class=modal-img-placeholder><span>image: ${d.img}</span></div>'">`;
   } else {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
+
+  const linkHTML = d.link ? `
+    <div class="modal-link">
+      <div class="link-label">◈ Link</div>
+      <a href="${d.link}" target="_blank" rel="noopener">↗ ${d.link}</a>
+    </div>` : '';
+
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
     ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${d.p3 ? `<p>${d.p3}</p>` : ''}
+    ${linkHTML}`;
+
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
 }
