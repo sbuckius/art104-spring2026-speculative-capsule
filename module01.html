@@ -310,24 +310,6 @@
   }
   .modal-body p:last-of-type { margin-bottom: 0; }
 
-  .modal-footnotes {
-    margin-top: 1.2rem; padding-top: 0.8rem;
-    border-top: 1px solid rgba(var(--cr),0.1);
-  }
-  .footnote-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.48rem; letter-spacing: 0.28em;
-    color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem;
-  }
-  .modal-footnotes a {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.56rem; letter-spacing: 0.08em;
-    color: var(--c); text-decoration: none; margin-bottom: 0.3rem;
-    opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem;
-  }
-  .modal-footnotes a:hover { opacity: 1; }
-
   footer {
     position: relative; z-index: 1;
     text-align: center; padding: 2rem;
@@ -397,33 +379,29 @@
 </div>
 
 <script>
-// ─── MODULE DATA ───────────────────────────────────────────────────────────
-// Replace placeholder text and image paths with real content.
-// Each entry: img (path), title (optional display name), p1 and p2 (paragraphs),
-// ref1 and ref2 (source URLs or filenames).
 const moduleData = {
-  "1":  { img:"images/computer1.png",  title:"Stella", p1:"“Digital Closet” is a project that will utilize big computer databases such a mainframe computers to make fashion easier. As a machine, the closet is quite huge and bulky as it is an extension to the main computer. The idea is that the computer will log all the information of your closet (clothing, shoes, accessories, etc) and make a database that will formulate outfits for you."},
-  "2":  { img:"images/computer2.png",  title:"Gab", p1:"Cogito Ergo Sum” is a piece where the question “What if your computer went rogue?” is answered. The world reflects on the idea of a “supreme AI,” where survivors escape the rule of a computer system’s AI that has evolved to take over technology as a whole. On the left, a survivor—one of the few humans left—hides from the hyper-surveilling AI, running from a machine that dictates humanity. Behind them is a setting of even more screens and surveillance, an exaggerated parallel of the numerous cameras and monitors we see daily, reflecting on the fact that this world may not be so different from our own. As a finished piece, Cogito Ergo Sum would be displayed on a large screen, ironically portrayed on the very thing that it criticizes."},
-  "3":  { img:"images/computer3.png",  title:"", p1:"Computer3 paragraph 1.", p2:"Computer3 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4":  { img:"images/computer4.png",  title:"", p1:"Computer4 paragraph 1.", p2:"Computer4 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5":  { img:"images/computer5.png",  title:"", p1:"Computer5 paragraph 1.", p2:"Computer5 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6":  { img:"images/computer6.png",  title:"", p1:"Computer6 paragraph 1.", p2:"Computer6 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "7":  { img:"images/computer7.png",  title:"", p1:"Computer7 paragraph 1.", p2:"Computer7 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "8":  { img:"images/computer8.png",  title:"", p1:"Computer8 paragraph 1.", p2:"Computer8 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "9":  { img:"images/computer9.png",  title:"", p1:"Computer9 paragraph 1.", p2:"Computer9 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "10": { img:"images/computer10.png", title:"", p1:"Computer10 paragraph 1.", p2:"Computer10 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "11": { img:"images/computer11.png", title:"", p1:"Computer11 paragraph 1.", p2:"Computer11 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "12": { img:"images/computer12.png", title:"", p1:"Computer12 paragraph 1.", p2:"Computer12 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "13": { img:"images/computer13.png", title:"", p1:"Computer13 paragraph 1.", p2:"Computer13 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "14": { img:"images/computer14.png", title:"", p1:"Computer14 paragraph 1.", p2:"Computer14 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "15": { img:"images/computer15.png", title:"", p1:"Computer15 paragraph 1.", p2:"Computer15 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "16": { img:"images/computer16.png", title:"", p1:"Computer16 paragraph 1.", p2:"Computer16 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "17": { img:"images/computer17.png", title:"", p1:"Computer17 paragraph 1.", p2:"Computer17 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "18": { img:"images/computer18.png", title:"", p1:"Computer18 paragraph 1.", p2:"Computer18 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "19": { img:"images/computer19.png", title:"", p1:"What I find most interesting and inspiring about this work is its emphasis on AR/XR technology and how devices like the Apple Vision Pro signal a shift toward immersive environments and how humans interact with computers. It raises important questions for me about the psychological effects of prolonged use and whether such technologies could push society toward a dystopia of escapism, in which virtual experiences replace meaningful engagement with reality. I appreciate the simplicity and practical design of the Apple Vision, but I'm uneasy about how strongly Apple encourages adoption, framing it as a necessary next step rather than an optional tool. This closely connects to my lived experience, as companies constantly try to sell the next \"fad,\" often positioning it as transformative or essential. Personally, I'm more inclined to value and engage with what reality already offers than to consume carefully constructed false realities. While I understand that humanity naturally craves new experiences and technological exploration, I worry that for some people, these immersive systems may become substitutes for reality, reinforcing patterns of escapism rather than enriching everyday life.", p2:"Computer19 paragraph 2 — add continuation or additional reflection here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "20": { img:"images/computer20.png", title:"", p1:"Computer20 paragraph 1.", p2:"Computer20 paragraph 2.", ref1:"https://example.com", ref2:"https://example.com" },
-  "21": { img:"images/computer21.png", title:"", p1:"Computer21 paragraph 1.", p2:"Computer21 paragraph 2.", ref1:"taivideo.html", ref2:"https://example.com" },
-  "22": { img:"images/computer22.png", title:"", p1:"Computer22 paragraph 1 — add student reflection here.", p2:"Computer22 paragraph 2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1":  { img:"images/computer1.png",  title:"Stella C.", p1:"\"Digital Closet\" is a project that will utilize big computer databases such as mainframe computers to make fashion easier. As a machine, the closet is quite huge and bulky as it is an extension to the main computer. The idea is that the computer will log all the information of your closet (clothing, shoes, accessories, etc) and make a database that will formulate outfits for you." },
+  "2":  { img:"images/computer2.png",  title:"Gab C.", p1:"\"Cogito Ergo Sum\" is a piece where the question \"What if your computer went rogue?\" is answered. The world reflects on the idea of a \"supreme AI,\" where survivors escape the rule of a computer system's AI that has evolved to take over technology as a whole. On the left, a survivor—one of the few humans left—hides from the hyper-surveilling AI, running from a machine that dictates humanity. Behind them is a setting of even more screens and surveillance, an exaggerated parallel of the numerous cameras and monitors we see daily, reflecting on the fact that this world may not be so different from our own. As a finished piece, Cogito Ergo Sum would be displayed on a large screen, ironically portrayed on the very thing that it criticizes." },
+  "3":  { img:"images/computer3.png",  title:"Samantha C.", p1:"A computer that runs parallel versions of a person's decisions (career paths, designs, relationships) using data modeling, letting you peek at alternate outcomes. A user can explore several possible futures based on different decisions they could make in the present. Instead of predicting the future, it generates parallel, plausible futures and presents them side by side." },
+  "4":  { img:"images/computer4.png",  title:"Emis C.", p1:"This speculative artwork, \"Perpetual Loading,\" illustrates a computer that is meant to be in a constant state of loading. This computer is meant to delay user engagement, compared to modern computers that value speed and efficiency. My artwork illustrates how slowing down technology is a reaction to information overload and productivity. The computer is a commentary on modern digital culture because it is meant to make waiting a reality, and the computer forces the user to think about their reliance on instant answers and output." },
+  "5":  { img:"images/computer5.png",  title:"Christian C.", p1:"\"Virtual Escape\" is a project I had in mind for a videogame concept. In it I would have people find themselves taken by this massive hand. I mocked up a render of the first view of the game where the entity that takes you breaks through the computer screen and takes you through a plane of reality that is filled with references to the internet. At first this would be a paradise to some who are chronically online. Yet to the player character reality sets in quick since the only way back is through the very screen they came through. So they journey through liminal and often times abstract environments in order to find a way home, all while the entity that dragged them is a constant unseen presence that impedes their progress." },
+  "6":  { img:"images/computer6.png",  title:"David C.", p1:"\"Nature Aid\" is a computer device that checks the health of a tree by piercing the bark with a special needle. The needle collects data from the health of the tree and its oxygen levels reflect on the device's screen. The data is then sent to scientists that help them determine if the tree should be protected, as well as the ability to determine if an area is healthy. Additionally, the device has a built-in detector to sense dangerous chemicals and fires, alerting firefighters and officials." },
+  "7":  { img:"images/computer7.png",  title:"Rosemarie I.", p1:"\"Robo_Companion\" is based on the recent trend of technology and the human desire for companionship. Instead of your computer being stationary, it would travel alongside you while exploring new destinations in the scientific field. It also embodies the recent trend of being extremely fragile due to cut corners by the company that develops these new computer companions." },
+  "8":  { img:"images/computer8.png",  title:"Rosalva J.", p1:"\"Social Battery\" critiques how modern computers prioritize ongoing notifications while ignoring the user's mental state. My piece depicts a user in a stressed condition marked by a heart rate and slow typing speed, while the computer continues to send notifications. The artwork proposes a speculative future where a computer syncs directly with physiological data to better align technology with the user's well-being." },
+  "9":  { img:"images/computer9.png",  title:"Ethan K.", p1:"Incorporates technology like electronic computers, speakers, monitors, LEDs, and wires. It focuses on the transfer of data, the relation of nature and technology, and the evolution of that technology along with the idea of mutations. It consists of a computer system that is growing with a tree that is on the inside and outside." },
+  "10": { img:"images/computer10.png", title:"Chloe K.", p1:"Imagine we developed technology where you can fully upload your conscience into a digital database. Now what would it be like once you die and your consciousness gets uploaded after. Would it be like heaven? Would it be a cage for profit and entertainment? This is what my Afterverse concept explores." },
+  "11": { img:"images/computer11.png", title:"Mihn Le", p1:"\"Heartware\" is a speculative computer artwork built around a personal computer that contains a beating human heart. The heart sits inside the computer as its core system. The computer functions only while the heart remains alive. When the heart weakens, the system slows. When it stops, the computer shuts down. The artwork frames the computer as dependent on human life for purpose and operation. The heart replaces abstract processing power with a visible biological presence. Human emotion, labor, and attention become the energy source of the machine. The computer exists only through continued human engagement. The work positions the human as a godlike figure who gives life to their creation. Without human input, the computer becomes inert and meaningless. The piece asks viewers to confront their role in sustaining digital systems and the cost of constant use. It turns computing into an ethical relationship rather than a neutral tool." },
+  "12": { img:"images/computer12.png", title:"Jo L.", p1:"This is the main difference between film props and the fictional objects of design speculations. The objects used in design speculations can extend beyond a filmic support function and break away from clichéd visual languages that prop designers are often obliged to use. And so I wanted to make a piece of tech from some kind of other world or distant future. Where in which biocomputing takes over, having living organisms work in collaboration with tech by using them for processing—later translating engineered, modular DNA networks designed to control gene expression in cells by mimicking electronic logic gates, making it possible to commute through different species." },
+  "13": { img:"images/computer13.png", title:"Zhiyun L.", p1:"This concept showcases a fictional bio-technological computer designed for video games. Unlike traditional computers, it combines technology with living organisms. This computer possesses an organic form, a glowing core, and structures resembling plants or crystals. It doesn't use a keyboard or screen; instead, it interacts through touch, energy, and its environment. This computer can learn, adapt, and change based on how it is used. It exists in various settings, such as modern environments like buildings and natural environments like forests, demonstrating a future where technology and nature coexist harmoniously." },
+  "14": { img:"images/computer14.png", title:"Miah L.", p1:"\"One Click Travel\" is a speculative artwork designed to let people travel the world with just a click of a button. Participants will be able to go to a specifically designed website that contains a variety of different locations that they are able to visit. Once a location and trip length is chosen, participants will have their area shift into the chosen location. This creates an illusion of the participant \"teleporting\" to the desired destination without actually leaving." },
+  "15": { img:"images/computer15.png", title:"Catherine L.", p1:"For my artwork, I was inspired by the prompts to create a foundation for a story set in a dystopian future. The crux of the dystopia comes from these TV or parlor rooms—rooms made up of floor to ceiling screens. Instead of pre-recorded television episodes, the screens would run off an adaptive AI, so the inhabitant could control what scenario they would like to enter. In this way, they could enter the fictional worlds of their favorite series, interact with their favorite characters or even celebrities, and really feel as though they are forming relationships with them. In my work, I wanted to target the psychological issue of parasocial relationships, something I feel is prominent now more than ever through social media. In the end, the parlor room essentially eliminates the need for forming connections with real people." },
+  "16": { img:"images/computer16.png", title:"David N.", p1:"Steampunk supercomputer. If computers were made 1000 years ago, human society would probably not even exist today. Back then everyone was a lot more blood thirsty and wanted war, so I could absolutely see people back then using computers for warfare and building more advanced technology, ending up wiping out humankind—this is assuming everyone across the world was able to build computers. The good ending, though, assuming everyone doesn't wipe each other out, we could have super advanced computers in modern day with them being way lighter and way more powerful. Uploading videos or processing them would probably be instant and I would imagine fictionally things such as having mini computers in our brains be possible. I could also see things such as steampunk style computers if we made them 1000 years ago, but not for long—if society could build computers 1000 years ago, technology would advance much faster." },
+  "17": { img:"images/computer17.png", title:"Phin N.", p1:"Computer (for Woman) is a critique product on the play of interface, modern AI sex dolls, and the parasocial relationship between human and tech. In the dystopian patriarchal world we are living in, the technology that once brought people together no matter time, distance, and language, has now isolated and revealed our deepest desires from the depth of loneliness. The computer that is made for (lonely) women prioritizes functionality, companionship, oxytocin, and most importantly, the power to process data and input effectively, all in one and at the same time. Computers evolve to fulfill specific functions, customized and modified to cater to different types of users. What would a computer for women look and behave like?" },
+  "18": { img:"images/computer18.png", title:"Ryan N.", p1:"\"Virtual Is Bliss\" is a digital art piece that critiques the Apple Vision Pro and the broader cultural push toward immersive virtual reality. Through repetition set against a dark, oppressive background, the work evokes a sense of comfort turned into confinement, where familiarity breeds conformity rather than freedom. The visual monotony reflects a society drifting toward passive consumption, suggesting a grim future in which technological convenience dulls individuality and replaces lived reality with curated illusion." },
+  "19": { img:"images/computer19.png", title:"David P.", p1:"This is an abstract/speculative artwork idea of how AI monsters become in a much further future from heavy use of AI and how people use it for bad or greed from profit. Using abstract tech of RAM for green block and data set for blue object—while red is TV—the rest of the structure is what I simply think it would be: moving around and taking action to become a \"real life creature.\" Even though AI is not a real life creature, I feel if they have their own thought processes, they probably want to prove they are real creatures like us." },
+  "20": { img:"images/computer20.png", title:"Tai P.", p1:"\"Residual Attention\" is a digital artwork that imagines a computer system that does not save files or content. Instead, it records user behavior, such as time spent, mouse movement, and inactivity. The system turns these behaviors into abstract visual traces that build, fade, and glitch over time. Rather than responding to commands, the computer reacts to presence, treating attention as valuable data. The artwork is a live system that changes based on how each person interacts with it." },
+  "21": { img:"images/computer21.png", title:"Starr P.", p1:"A modern solution to the wizard's spellbook. Say goodbye to the bulky tomes of the past—the electronic spell book allows a wizard to access all their spells easier than ever before. Preload up to 6 basic spells to call upon with the click of a button. Vital for deadly combat scenarios. Need more arcane power for that fireball? Turn the dial to increase the level of your spells. Never have a need to buy parchment and ink again! Not only will you save time by typing, but the E-spellbook has no page limit." },
+  "22": { img:"images/computer22.png", title:"Brianna", p1:"\"My Computer\" is a project that involves a speculative computer design that can physically transform into different appearances, depending on what 4 versions (glitter, crystals, solid color, transparent) I am feeling for the day. This computer has all the necessities and abilities that I need, such as good speakers, the ability to grow another monitor, built-in projector, every port needed, does not ever overheat, runs every program in existence, detachable screen, can float, and it can project holograms so I can control the screen with my hands." }
 };
 
 // ─── BUILD GRID ────────────────────────────────────────────────────────────
@@ -434,7 +412,6 @@ function buildGrid() {
     const card = document.createElement('div');
     card.className = 'proj-card';
 
-    // Try to use image; fall back to placeholder
     const imgEl = d.img
       ? `<img class="card-img" src="${d.img}" alt="artifact ${id}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       : '';
@@ -468,7 +445,6 @@ function openModal(id) {
   document.getElementById('modal-mod-label').textContent = `MOD·01 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
 
-  // Image or placeholder
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="${d.img}" alt="artifact ${id}"
@@ -477,15 +453,9 @@ function openModal(id) {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
 
-  // Body
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
-    ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${d.p2 ? `<p>${d.p2}</p>` : ''}`;
 
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
