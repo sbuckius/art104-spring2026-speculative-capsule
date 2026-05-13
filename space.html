@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPECULATION CAPSULE // Space World — ART104</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void: #03040a;
+    --bloom: #7b2fff;
+    --pulse: #ff2d78;
+    --glow: #00ffb3;
+    --star: #c8c4ff;
+    --panel: #080614;
+  }
+
+  html, body {
+    background: var(--void);
+    overflow: hidden;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--star);
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #bg { display: block; position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
+
+  /* ── UI LAYER ─────────────────────────────────────────── */
+  #ui {
+    position: fixed; inset: 0; z-index: 10;
+    pointer-events: none;
+  }
+
+  /* HEADER */
+  header {
+    position: absolute; top: 0; left: 0; right: 0;
+    background: rgba(3,4,10,0.78);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(123,47,255,0.14);
+    padding: .9rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: all;
+  }
+  .logo {
+    font-weight: 700; font-size: .95rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--star); text-decoration: none;
+    display: flex; align-items: center; gap: .65rem;
+  }
+  .logo-gem {
+    width: 9px; height: 9px; background: var(--bloom);
+    clip-path: polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+    box-shadow: 0 0 9px var(--bloom); flex-shrink: 0;
+  }
+  .header-right {
+    font-family: 'Courier Prime', monospace; font-size: .5rem;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: rgba(200,196,255,.22);
+  }
+  .nav-back {
+    font-family: 'Courier Prime', monospace; font-size: .52rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--star);
+    background: transparent; border: 1px solid rgba(123,47,255,.35);
+    padding: .38rem .9rem; text-decoration: none; transition: all .2s;
+    clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    pointer-events: all;
+  }
+  .nav-back:hover { background: rgba(123,47,255,.18); border-color: var(--bloom); color: #fff; }
+
+  /* CORNER BRACKETS */
+  .corner { position: absolute; pointer-events: none; opacity: .3; }
+  .tl { top: 58px; left: 12px; }
+  .tr { top: 58px; right: 12px; }
+  .bl { bottom: 12px; left: 12px; }
+  .br { bottom: 12px; right: 12px; }
+
+  /* SYS LABELS */
+  .sys-tl {
+    position: absolute; top: 62px; left: 42px;
+    font-family: 'Courier Prime', monospace; font-size: .46rem;
+    letter-spacing: .22em; color: rgba(123,47,255,.35);
+    text-transform: uppercase; pointer-events: none;
+  }
+  .sys-br {
+    position: absolute; bottom: 14px; right: 42px;
+    font-family: 'Courier Prime', monospace; font-size: .44rem;
+    letter-spacing: .18em; color: rgba(200,196,255,.14);
+    text-transform: uppercase; text-align: right; line-height: 1.9;
+    pointer-events: none;
+  }
+
+  /* STATS BADGE */
+  .stats-badge {
+    position: absolute; bottom: 42px; right: 14px;
+    background: rgba(8,6,20,.9); border: 1px solid rgba(123,47,255,.2);
+    padding: .65rem .9rem; text-align: center; pointer-events: none;
+  }
+  .badge-val {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 1.6rem; line-height: 1; color: var(--bloom);
+    text-shadow: 0 0 14px rgba(123,47,255,.5); display: block;
+  }
+  .badge-lbl {
+    font-family: 'Courier Prime', monospace; font-size: .38rem;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: rgba(200,196,255,.2); display: block; margin-top: 1px;
+  }
+  .badge-div { height: 1px; background: rgba(123,47,255,.14); margin: .35rem 0; }
+
+  /* CONTROLS HINT */
+  .ctrl-hint {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    pointer-events: none; display: flex; gap: 5px; align-items: center;
+  }
+  .key {
+    background: rgba(8,6,20,.8); border: 1px solid rgba(123,47,255,.28);
+    padding: .16rem .5rem; font-family: 'Courier Prime', monospace;
+    font-size: .42rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(200,196,255,.38);
+  }
+  .key.sep { background: transparent; border: none; color: rgba(200,196,255,.18); }
+
+  /* PROXIMITY LABEL (world name popup) */
+  .prox-label {
+    position: absolute; transform: translate(-50%, -100%);
+    font-family: 'Courier Prime', monospace; font-size: .46rem;
+    letter-spacing: .2em; text-transform: uppercase;
+    background: rgba(3,4,10,.82); border: 1px solid;
+    padding: 3px 9px; white-space: nowrap; margin-top: -10px;
+    pointer-events: none; opacity: 0; transition: opacity .3s;
+  }
+  .prox-label.vis { opacity: 1; }
+
+  /* MENU PANEL */
+  .menu-panel {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: all; background: var(--panel);
+    border: 1px solid rgba(123,47,255,.25); width: 380px;
+    box-shadow: 0 0 80px rgba(123,47,255,.12); display: none;
+  }
+  .menu-panel.open { display: block; }
+  .menu-top-bar { height: 2px; background: linear-gradient(90deg,var(--bloom),var(--pulse),transparent); }
+  .menu-hdr {
+    padding: .85rem 1.1rem .7rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(123,47,255,.1);
+  }
+  .menu-id {
+    font-family: 'Courier Prime', monospace; font-size: .5rem; font-weight: 700;
+    letter-spacing: .25em; color: var(--bloom); background: rgba(123,47,255,.1);
+    border: 1px solid rgba(123,47,255,.25); padding: .18rem .5rem;
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .menu-id::before {
+    content: ''; width: 5px; height: 5px; background: var(--bloom);
+    clip-path: polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+    box-shadow: 0 0 6px var(--bloom);
+  }
+  .menu-htitle {
+    font-family: 'Rajdhani', sans-serif; font-size: .8rem; font-weight: 700;
+    letter-spacing: .14em; color: var(--star); text-transform: uppercase;
+    flex: 1; margin: 0 .6rem;
+  }
+  .menu-close {
+    font-family: 'Courier Prime', monospace; font-size: .5rem; letter-spacing: .2em;
+    color: rgba(200,196,255,.35); background: transparent;
+    border: 1px solid rgba(200,196,255,.12); padding: .25rem .6rem;
+    cursor: pointer; text-transform: uppercase; transition: all .2s;
+  }
+  .menu-close:hover { color: #fff; border-color: rgba(200,196,255,.4); }
+  .menu-tabs { display: flex; border-bottom: 1px solid rgba(123,47,255,.1); }
+  .tab-btn {
+    font-family: 'Courier Prime', monospace; font-size: .45rem; letter-spacing: .15em;
+    text-transform: uppercase; color: rgba(200,196,255,.32); background: transparent;
+    border: none; border-right: 1px solid rgba(123,47,255,.1);
+    padding: .48rem .8rem; cursor: pointer; transition: all .2s;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn:hover { color: var(--star); background: rgba(123,47,255,.07); }
+  .tab-btn.active { color: var(--bloom); background: rgba(123,47,255,.1); }
+  .menu-body {
+    padding: .95rem 1.1rem; font-family: 'EB Garamond', serif;
+    font-size: .88rem; line-height: 1.75; color: rgba(200,196,255,.58);
+    min-height: 88px;
+  }
+  .menu-body p { margin-bottom: .55rem; }
+  .menu-body strong { color: var(--star); font-family: 'Rajdhani', sans-serif; font-weight: 700; }
+  .menu-body ul { list-style: none; padding: 0; }
+  .menu-body li { margin-bottom: .28rem; }
+  .menu-body table { width: 100%; font-family: 'Courier Prime', monospace; font-size: .5rem; }
+  .menu-body td { padding: .2rem .3rem; color: rgba(200,196,255,.45); border-bottom: 1px solid rgba(123,47,255,.06); }
+  .menu-body td:first-child { color: var(--bloom); white-space: nowrap; }
+  .menu-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-family: 'Courier Prime', monospace; font-size: .52rem;
+    letter-spacing: .15em; text-transform: uppercase; color: var(--star);
+    background: transparent; border: 1px solid rgba(123,47,255,.4);
+    padding: .4rem 1rem; text-decoration: none; margin-top: .6rem;
+    transition: all .2s; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    pointer-events: all;
+  }
+  .menu-link:hover { background: rgba(123,47,255,.2); border-color: var(--bloom); color: #fff; }
+  .menu-fn {
+    padding: .45rem 1.1rem .75rem; font-family: 'Courier Prime', monospace;
+    font-size: .43rem; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(200,196,255,.16); border-top: 1px solid rgba(123,47,255,.07);
+  }
+
+  /* OPEN CAPSULE BTN */
+  .open-menu-btn {
+    position: absolute; top: 10px; right: 14px;
+    pointer-events: all; background: transparent;
+    border: 1px solid rgba(123,47,255,.4); padding: .42rem 1.05rem;
+    cursor: pointer; font-family: 'Courier Prime', monospace; font-size: .52rem;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--star);
+    transition: all .2s; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    animation: blink-slow 2.4s ease-in-out infinite;
+  }
+  .open-menu-btn:hover { background: rgba(123,47,255,.2); border-color: var(--bloom); color: #fff; animation: none; }
+
+  @keyframes blink-slow { 0%,100%{opacity:.85} 50%{opacity:.35} }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div id="ui">
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-gem"></div>
+      Speculation Capsule
+    </a>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <div class="header-right">ART104 · Spring 2026 · Space World</div>
+      <a href="index.html" class="nav-back">← Module Index</a>
+    </div>
+  </header>
+
+  <!-- CORNERS -->
+  <div class="corner tl"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M0 22L0 0L22 0" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner tr"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M22 22L22 0L0 0" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner bl"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M0 0L0 22L22 22" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner br"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M22 0L22 22L0 22" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+
+  <div class="sys-tl">// ART104 · S2026 · space node online</div>
+  <div class="sys-br">37.9749°N · 122.0297°W<br>6 worlds · 56 artifacts</div>
+
+  <!-- STATS -->
+  <div class="stats-badge">
+    <span class="badge-val">56</span><span class="badge-lbl">Artifacts</span>
+    <div class="badge-div"></div>
+    <span class="badge-val" style="color:#ff2d78;text-shadow:0 0 14px rgba(255,45,120,.5)">06</span><span class="badge-lbl">Modules</span>
+    <div class="badge-div"></div>
+    <span class="badge-val" style="font-size:.85rem;color:rgba(200,196,255,.3)">S26</span><span class="badge-lbl">Semester</span>
+  </div>
+
+  <!-- OPEN MENU -->
+  <button class="open-menu-btn" id="openMenuBtn" onclick="toggleMenu()">◈ Open Capsule</button>
+
+  <!-- MENU PANEL -->
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-top-bar"></div>
+    <div class="menu-hdr">
+      <span class="menu-id" id="menuId">ART104</span>
+      <span class="menu-htitle" id="menuHTitle">Speculation Capsule</span>
+      <button class="menu-close" onclick="toggleMenu()">✕ Close</button>
+    </div>
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="showTab('home',this)">Home</button>
+      <button class="tab-btn" onclick="showTab('mods',this)">Modules</button>
+      <button class="tab-btn" onclick="showTab('controls',this)">Controls</button>
+      <button class="tab-btn" onclick="showTab('behind',this)">Behind</button>
+    </div>
+    <div class="menu-body" id="menuBody"></div>
+    <div class="menu-fn" id="menuFn">◈ payload sealed · spring 2026 · node online</div>
+  </div>
+
+  <!-- WORLD PROXIMITY LABELS (injected by JS) -->
+  <div id="labelContainer"></div>
+
+  <!-- CONTROLS HINT -->
+  <div class="ctrl-hint">
+    <span class="key">↑↓←→</span><span class="key sep">yaw/pitch</span>
+    <span class="key">Q E</span><span class="key sep">roll</span>
+    <span class="key">W S</span><span class="key sep">thrust</span>
+    <span class="key">Shift</span><span class="key sep">boost</span>
+    <span class="key">drag</span><span class="key sep">orbit cam</span>
+    <span class="key">click world</span><span class="key sep">open</span>
+  </div>
+</div>
+
+<!-- ── THREE.JS SCENE ──────────────────────────────────── -->
+<script>
+const C = document.getElementById('bg');
+const W = window.innerWidth, H = window.innerHeight;
+C.width = W; C.height = H;
+
+const renderer = new THREE.WebGLRenderer({ canvas: C, antialias: true });
+renderer.setSize(W, H);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x03040a);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x03040a, 0.016);
+
+const camera = new THREE.PerspectiveCamera(58, W / H, 0.1, 500);
+camera.position.set(0, 2, 28);
+camera.lookAt(0, 0, 0);
+
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  C.width = window.innerWidth; C.height = window.innerHeight;
+});
+
+// ── LIGHTS ────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0x1a0a3a, 2.8));
+const sun = new THREE.DirectionalLight(0xc8b0ff, 1.4);
+sun.position.set(20, 30, 20); sun.castShadow = true; scene.add(sun);
+const rim = new THREE.DirectionalLight(0x7b2fff, 0.9); rim.position.set(-15, 0, -20); scene.add(rim);
+const pink = new THREE.DirectionalLight(0xff2d78, 0.5); pink.position.set(20, -10, 10); scene.add(pink);
+const teal = new THREE.DirectionalLight(0x00ffb3, 0.3); teal.position.set(-20, 10, 5); scene.add(teal);
+
+// ── STARFIELD ─────────────────────────────────────────────
+const sGeo = new THREE.BufferGeometry();
+const sPos = new Float32Array(2400 * 3);
+for (let i = 0; i < sPos.length; i++) sPos[i] = (Math.random() - 0.5) * 600;
+sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+const starField = new THREE.Points(sGeo, new THREE.PointsMaterial({ color: 0xc8c4ff, size: 0.2, transparent: true, opacity: 0.8 }));
+scene.add(starField);
+
+// ── NEBULA BLOBS ──────────────────────────────────────────
+[
+  [0xaa44ff, 0.065, [-70, 25, -120], 90, 65, 50],
+  [0xff2d78, 0.04,  [ 75,-25, -140], 70, 90, 60],
+  [0x00ffb3, 0.03,  [-90,-35, -100], 80, 55, 70]
+].forEach(([col, op, pos, sx, sy, sz]) => {
+  const m = new THREE.Mesh(
+    new THREE.BoxGeometry(sx, sy, sz),
+    new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: op, depthWrite: false })
+  );
+  m.position.set(...pos); m.rotation.set(Math.random(), Math.random(), Math.random());
+  scene.add(m);
+});
+
+// ── ORBIT RINGS (ground plane) ────────────────────────────
+const ringMat1 = new THREE.MeshLambertMaterial({ color: 0x7b2fff, opacity: 0.1, transparent: true, side: THREE.DoubleSide });
+const ring1 = new THREE.Mesh(new THREE.RingGeometry(18, 18.2, 64), ringMat1);
+ring1.rotation.x = -Math.PI / 2; ring1.position.y = -2; scene.add(ring1);
+const ringMat2 = new THREE.MeshLambertMaterial({ color: 0xff2d78, opacity: 0.055, transparent: true, side: THREE.DoubleSide });
+const ring2 = new THREE.Mesh(new THREE.RingGeometry(28, 28.25, 64), ringMat2);
+ring2.rotation.x = -Math.PI / 2; ring2.position.y = -2; scene.add(ring2);
+
+// ── DEBRIS FIELD ──────────────────────────────────────────
+const debrisMats = [
+  new THREE.MeshLambertMaterial({ color: 0x12092e }),
+  new THREE.MeshLambertMaterial({ color: 0x0a0618 }),
+  new THREE.MeshLambertMaterial({ color: 0x160930 }),
+];
+const debrisGeos = [
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.OctahedronGeometry(1, 0),
+  new THREE.TetrahedronGeometry(1, 0),
+  new THREE.DodecahedronGeometry(1, 0),
+];
+for (let i = 0; i < 90; i++) {
+  const geo = debrisGeos[Math.floor(Math.random() * debrisGeos.length)];
+  const s = 0.3 + Math.random() * 2.2;
+  const d = new THREE.Mesh(geo, debrisMats[Math.floor(Math.random() * debrisMats.length)]);
+  d.scale.set(s, s * (0.5 + Math.random()), s);
+  d.position.set((Math.random() - 0.5) * 160, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 120 - 30);
+  d.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+  d.castShadow = true;
+  scene.add(d);
+}
+
+// ── MODULE WORLDS ─────────────────────────────────────────
+const modules = [
+  { id: '01', label: 'Computer History\n& Technology',    sub: 'Machines / memory / infrastructure',              color: 0x7b2fff, hx: '7b2fff', n: 22, status: 'Active',       pos: [ 0,  0, -65], shape: 'torusknot', href: 'module01.html' },
+  { id: '02', label: 'Human / Self\n/ Identity / Body',   sub: 'Embodied systems / selfhood / presence',          color: 0xff6eb4, hx: 'ff6eb4', n:  7, status: 'Transmitting', pos: [-42, 14, -50], shape: 'dodeca',    href: 'module02.html' },
+  { id: '03', label: 'Information &\nCommunication',      sub: 'Signal / noise / transmission / networks',        color: 0x00ffb3, hx: '00ffb3', n:  7, status: 'Active',       pos: [ 44,  9, -55], shape: 'icosa',     href: 'module03.html' },
+  { id: '04', label: 'Reality',                           sub: 'Simulation / perception / constructed worlds',    color: 0x00b4ff, hx: '00b4ff', n:  7, status: 'Standby',      pos: [-26,-20, -60], shape: 'ringworld', href: 'module04.html' },
+  { id: '05', label: 'Nature / Ecology\n/ Environment',   sub: 'Sustainability / more-than-human futures',        color: 0xb4ff00, hx: 'b4ff00', n:  7, status: 'Standby',      pos: [ 30,-16, -52], shape: 'crystal',   href: 'module05.html' },
+  { id: '06', label: 'Self-Proposed',                     sub: 'Open vector / artist-defined inquiry',            color: 0xff2d78, hx: 'ff2d78', n:  6, status: 'Standby',      pos: [  0, 25, -56], shape: 'helix',     href: 'module06.html' },
+];
+
+const worldGroups = [];
+
+function buildWorld(m) {
+  const g = new THREE.Group();
+  g.position.set(...m.pos);
+  g.userData = m;
+
+  const col = new THREE.Color(m.color);
+  const darkCol = col.clone().lerp(new THREE.Color(0x03040a), 0.75);
+  const solidMat  = new THREE.MeshLambertMaterial({ color: darkCol });
+  const wireMat   = new THREE.MeshLambertMaterial({ color: m.color, wireframe: true, transparent: true, opacity: 0.18 });
+  const glowMat   = new THREE.MeshLambertMaterial({ color: m.color, transparent: true, opacity: 0.55 });
+  const edgeMat   = new THREE.MeshLambertMaterial({ color: m.color });
+
+  if (m.shape === 'torusknot') {
+    const geo = new THREE.TorusKnotGeometry(4.5, 1.1, 128, 16, 2, 3);
+    g.add(new THREE.Mesh(geo, solidMat));
+    g.add(new THREE.Mesh(geo, wireMat));
+    for (let i = 0; i < 3; i++) {
+      const r = new THREE.Mesh(new THREE.TorusGeometry(7 + i * 1.9, 0.06, 8, 48), glowMat.clone());
+      r.rotation.set(Math.PI / 3 + i * 0.4, 0, i * 0.7); g.add(r);
+    }
+  } else if (m.shape === 'dodeca') {
+    const geo = new THREE.DodecahedronGeometry(5, 0);
+    g.add(new THREE.Mesh(geo, solidMat));
+    g.add(new THREE.Mesh(geo, wireMat));
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      const sm = new THREE.Mesh(new THREE.DodecahedronGeometry(1.2, 0), glowMat.clone());
+      sm.position.set(Math.cos(a) * 8, Math.sin(a) * 4, 0); g.add(sm);
+    }
+  } else if (m.shape === 'icosa') {
+    const geo = new THREE.IcosahedronGeometry(5, 1);
+    g.add(new THREE.Mesh(geo, solidMat));
+    g.add(new THREE.Mesh(geo, wireMat));
+    for (let i = 0; i < 8; i++) {
+      const shard = new THREE.Mesh(new THREE.ConeGeometry(0.4, 4.2, 4), glowMat.clone());
+      const a = Math.random() * Math.PI * 2, b = Math.random() * Math.PI;
+      shard.position.set(Math.sin(b) * Math.cos(a) * 6.5, Math.cos(b) * 6.5, Math.sin(b) * Math.sin(a) * 6.5);
+      shard.lookAt(0, 0, 0); g.add(shard);
+    }
+  } else if (m.shape === 'ringworld') {
+    const geo = new THREE.TorusGeometry(6.5, 1.9, 16, 64);
+    const main = new THREE.Mesh(geo, solidMat); main.rotation.x = Math.PI / 2.4; g.add(main);
+    const wire = new THREE.Mesh(geo, wireMat); wire.rotation.x = Math.PI / 2.4; g.add(wire);
+    g.add(new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 16), glowMat.clone()));
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(0.3, 2.5, 0.3), glowMat.clone());
+      panel.position.set(Math.cos(a) * 6.5, 0, Math.sin(a) * 6.5); g.add(panel);
+    }
+  } else if (m.shape === 'crystal') {
+    [[0,0,0,5],[4,2,1,2.2],[-3,3,-1,1.8],[2,-3,2,2],[-2,-2,3,1.5],[3,1,-3,1.6]].forEach(([x,y,z,s], i) => {
+      const geo = new THREE.OctahedronGeometry(s, 0);
+      const mesh = new THREE.Mesh(geo, i === 0 ? solidMat : glowMat.clone());
+      mesh.position.set(x, y, z);
+      mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+      mesh.castShadow = true; g.add(mesh);
+      if (i === 0) {
+        const wm = new THREE.Mesh(geo, wireMat);
+        wm.position.set(x, y, z); wm.rotation.copy(mesh.rotation); g.add(wm);
+      }
+    });
+  } else if (m.shape === 'helix') {
+    const geo = new THREE.IcosahedronGeometry(4, 0);
+    g.add(new THREE.Mesh(geo, solidMat));
+    g.add(new THREE.Mesh(geo, wireMat));
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 4;
+      const torus = new THREE.Mesh(new THREE.TorusGeometry(0.9, 0.26, 6, 16), glowMat.clone());
+      torus.position.set(Math.cos(a) * 5, i * 1.2 - 7, Math.sin(a) * 5);
+      torus.rotation.x = a / 2; g.add(torus);
+    }
+  }
+
+  // Artifact dot cloud
+  for (let i = 0; i < m.n; i++) {
+    const dot = new THREE.Mesh(
+      new THREE.BoxGeometry(0.22, 0.22, 0.22),
+      new THREE.MeshLambertMaterial({ color: Math.random() > 0.45 ? m.color : 0x2a1a4a, transparent: true, opacity: Math.random() * 0.5 + 0.3 })
+    );
+    const r = 9 + Math.random() * 4.5;
+    const a = Math.random() * Math.PI * 2, b = Math.random() * Math.PI;
+    dot.position.set(Math.sin(b) * Math.cos(a) * r, Math.cos(b) * r, Math.sin(b) * Math.sin(a) * r);
+    dot.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+    g.add(dot);
+  }
+
+  // Billboard tag
+  const tag = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.65, 0.12), new THREE.MeshLambertMaterial({ color: 0x0d0b1e }));
+  tag.position.set(0, 8.8, 0); tag.userData.isTag = true; g.add(tag);
+  const tagLine = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.08, 0.14), edgeMat.clone());
+  tagLine.position.set(0, 9.14, 0); g.add(tagLine);
+  const idBox = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.4, 0.13), new THREE.MeshLambertMaterial({ color: col.clone().lerp(new THREE.Color(0x03040a), 0.6) }));
+  idBox.position.set(-1, 8.78, 0); g.add(idBox);
+
+  scene.add(g);
+  worldGroups.push(g);
+}
+
+modules.forEach(m => buildWorld(m));
+
+// ── SPACESHIP ─────────────────────────────────────────────
+const ship = new THREE.Group();
+const hullMat    = new THREE.MeshLambertMaterial({ color: 0x080616 });
+const accentMat  = new THREE.MeshLambertMaterial({ color: 0x7b2fff });
+const cockpitMat = new THREE.MeshLambertMaterial({ color: 0x7b2fff, transparent: true, opacity: 0.5 });
+const glowEngMat = new THREE.MeshLambertMaterial({ color: 0x7b2fff, transparent: true, opacity: 0.85 });
+const tailMat    = new THREE.MeshLambertMaterial({ color: 0xff2d78, transparent: true, opacity: 0.8 });
+
+// Hull
+const hull = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.45, 3.9), hullMat); hull.castShadow = true; ship.add(hull);
+// Nose
+const nose = new THREE.Mesh(new THREE.ConeGeometry(0.54, 2.3, 6), hullMat); nose.rotation.x = -Math.PI / 2; nose.position.z = -3.0; nose.castShadow = true; ship.add(nose);
+// Cockpit
+const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.54, 8, 6, 0, Math.PI * 2, 0, Math.PI * 0.6), cockpitMat); cockpit.position.set(0, 0.28, 0.2); ship.add(cockpit);
+// Wings
+[-1.5, 1.5].forEach(wx => {
+  const wing = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.12, 1.85), hullMat); wing.position.set(wx, -0.05, 0.42); wing.castShadow = true; ship.add(wing);
+  const tip = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.36, 0.95), accentMat.clone()); tip.position.set(wx + (wx < 0 ? -1.6 : 1.6), 0, 0.42); ship.add(tip);
+  const stripe = new THREE.Mesh(new THREE.BoxGeometry(2.7, 0.06, 0.12), accentMat.clone()); stripe.position.set(wx * 0.75, 0.06, 0.72); ship.add(stripe);
+});
+// Nacelles
+[-1, 1].forEach(ex => {
+  const nac = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 1.45, 8), hullMat); nac.rotation.x = Math.PI / 2; nac.position.set(ex * 0.92, -0.15, 1.22); ship.add(nac);
+  const glow = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.28, 0.32, 8), glowEngMat.clone()); glow.rotation.x = Math.PI / 2; glow.position.set(ex * 0.92, -0.15, 1.88); ship.add(glow);
+});
+// Spine
+const spine = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.22, 3.3), accentMat.clone()); spine.position.set(0, 0.28, 0); ship.add(spine);
+// Headlights
+const hlMat = new THREE.MeshLambertMaterial({ color: 0x7b2fff, opacity: 0.9, transparent: true });
+[-0.25, 0.25].forEach(hx => { const hl = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.1, 0.14), hlMat.clone()); hl.position.set(0.67, 0.46, hx); ship.add(hl); });
+// Taillights
+[-0.26, 0.26].forEach(tx => { const tl = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.09, 0.13), tailMat.clone()); tl.position.set(-0.67, 0.46, tx); ship.add(tl); });
+// Top gem
+const gem = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), accentMat.clone()); gem.rotation.y = Math.PI / 4; gem.position.set(0.1, 1.04, 0); ship.add(gem);
+
+ship.position.set(0, 0, 18);
+scene.add(ship);
+
+// ── INPUT ─────────────────────────────────────────────────
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.code] = true; });
+document.addEventListener('keyup',   e => { delete keys[e.code]; });
+
+let camOffH = 0, camOffV = 0.18, camDist = 13;
+let isDragging = false, lastMX = 0, lastMY = 0;
+
+C.addEventListener('mousedown', e => { isDragging = true; lastMX = e.clientX; lastMY = e.clientY; });
+document.addEventListener('mouseup',   () => { isDragging = false; });
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  camOffH += (e.clientX - lastMX) * 0.007;
+  camOffV  = Math.max(-0.45, Math.min(0.6, camOffV - (e.clientY - lastMY) * 0.004));
+  lastMX = e.clientX; lastMY = e.clientY;
+});
+C.addEventListener('wheel', e => {
+  camDist = Math.max(5, Math.min(32, camDist + e.deltaY * 0.015));
+  e.preventDefault();
+}, { passive: false });
+
+// Click to open world
+const raycaster = new THREE.Raycaster();
+C.addEventListener('click', e => {
+  if (isDragging) return;
+  const rect = C.getBoundingClientRect();
+  const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera({ x: mx, y: my }, camera);
+  const hits = raycaster.intersectObjects(worldGroups.flatMap(g => g.children), true);
+  if (hits.length) {
+    let obj = hits[0].object;
+    while (obj.parent && !obj.parent.userData.id) obj = obj.parent;
+    if (obj.parent && obj.parent.userData.id) openWorldPanel(obj.parent.userData);
+  }
+});
+
+// Touch support (mobile)
+C.addEventListener('touchstart', e => { isDragging = true; lastMX = e.touches[0].clientX; lastMY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', () => { isDragging = false; });
+document.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  camOffH += (e.touches[0].clientX - lastMX) * 0.007;
+  camOffV  = Math.max(-0.45, Math.min(0.6, camOffV - (e.touches[0].clientY - lastMY) * 0.004));
+  lastMX = e.touches[0].clientX; lastMY = e.touches[0].clientY;
+}, { passive: true });
+
+// ── MENU DATA ─────────────────────────────────────────────
+function hexRgb(h) {
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)].join(',');
+}
+
+function openWorldPanel(m) {
+  document.getElementById('menuId').textContent = 'MOD·' + m.id;
+  document.getElementById('menuHTitle').textContent = m.label.replace('\n', ' ');
+  document.getElementById('menuFn').innerHTML = `◈ ${m.status.toLowerCase()} · ${m.n} artifacts · spring 2026`;
+  document.getElementById('menuBody').innerHTML = `
+    <p style="font-family:'Courier Prime',monospace;font-size:.48rem;letter-spacing:.25em;color:#${m.hx};opacity:.8;margin-bottom:.5rem">◈ ${m.status.toUpperCase()}</p>
+    <p><strong>${m.label.replace('\n', ' ')}</strong></p>
+    <p style="font-family:'Courier Prime',monospace;font-size:.48rem;letter-spacing:.1em;color:rgba(200,196,255,.3)">${m.sub}</p>
+    <p><strong>${m.n}</strong> artifacts · Spring 2026</p>
+    <a class="menu-link" href="${m.href}">↗ Enter Module ${m.id}</a>`;
+  document.getElementById('menuPanel').classList.add('open');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.textContent === 'Modules'));
+}
+
+const tabContent = {
+  home: `<p style="font-family:'Courier Prime',monospace;font-size:.48rem;letter-spacing:.28em;color:#00ffb3;opacity:.65;margin-bottom:.6rem">// ART104 · Spring 2026 · Space Node</p>
+    <p>Pilot your spacecraft through the void. <strong>56 speculative artifacts</strong> are scattered across 6 alien worlds.</p>
+    <p>Fly close to any world and click it to open its module. Arrow keys to steer, W/S to thrust.</p>
+    <p style="font-family:'Courier Prime',monospace;font-size:.44rem;letter-spacing:.2em;color:rgba(200,196,255,.22)">37.9749°N · 122.0297°W · S26</p>`,
+  mods: `<p style="margin-bottom:.5rem">Fly to any <strong>world</strong> and click it to open.</p>
+    <ul>${modules.map(m => `<li style="font-family:'Courier Prime',monospace;font-size:.5rem;letter-spacing:.1em;margin-bottom:.3rem"><span style="color:#${m.hx}">◈ MOD·${m.id}</span> <span style="color:rgba(200,196,255,.45)">${m.label.replace('\n', ' ')} (${m.n})</span><br><a class="menu-link" style="margin-top:.2rem;font-size:.42rem;padding:.25rem .6rem" href="${m.href}">↗ Enter</a></li>`).join('')}</ul>`,
+  controls: `<table>
+    <tr><td>↑ ↓ ← →</td><td>Yaw / Pitch</td></tr>
+    <tr><td>Q / E</td><td>Roll left / right</td></tr>
+    <tr><td>W / S</td><td>Thrust fwd / back</td></tr>
+    <tr><td>Shift</td><td>Boost</td></tr>
+    <tr><td>Drag</td><td>Orbit camera</td></tr>
+    <tr><td>Scroll</td><td>Zoom</td></tr>
+    <tr><td>Click world</td><td>Open module</td></tr>
+    </table>`,
+  behind: `<p>Built with <strong>Three.js r128</strong> and the Speculation Capsule design system.</p>
+    <p>6 procedural alien worlds — torus knot, dodecahedron, icosahedron, ring world, crystal cluster, and helix — each floating in the void.</p>
+    <p style="font-family:'Courier Prime',monospace;font-size:.44rem;letter-spacing:.18em;color:rgba(200,196,255,.18)">ART104 · 56 Transmissions · All nodes monitored</p>`
+};
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('menuId').textContent = 'ART104';
+  document.getElementById('menuHTitle').textContent = 'Speculation Capsule';
+  document.getElementById('menuFn').textContent = '◈ payload sealed · spring 2026 · node online';
+  document.getElementById('menuBody').innerHTML = tabContent[name] || '';
+}
+
+function toggleMenu() {
+  const p = document.getElementById('menuPanel');
+  p.classList.toggle('open');
+  if (p.classList.contains('open')) {
+    document.getElementById('menuId').textContent = 'ART104';
+    document.getElementById('menuHTitle').textContent = 'Speculation Capsule';
+    document.getElementById('menuFn').textContent = '◈ payload sealed · spring 2026 · node online';
+    document.getElementById('menuBody').innerHTML = tabContent.home;
+    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+  }
+}
+
+// Init menu
+document.getElementById('menuBody').innerHTML = tabContent.home;
+
+// ── PROXIMITY LABELS ──────────────────────────────────────
+function updateLabels() {
+  const lc = document.getElementById('labelContainer');
+  lc.innerHTML = '';
+  worldGroups.forEach(g => {
+    const m = g.userData;
+    const pos = new THREE.Vector3();
+    g.getWorldPosition(pos);
+    pos.y += 11;
+    pos.project(camera);
+    if (pos.z > 1) return;
+    const x = (pos.x * 0.5 + 0.5) * window.innerWidth;
+    const y = (-0.5 * pos.y + 0.5) * window.innerHeight;
+    if (x < 20 || x > window.innerWidth - 20 || y < 60 || y > window.innerHeight - 20) return;
+    const dist = ship.position.distanceTo(g.position);
+    const div = document.createElement('div');
+    div.className = 'prox-label' + (dist < 38 ? ' vis' : '');
+    div.style.cssText = `left:${x}px;top:${y}px;color:#${m.hx};border-color:rgba(${hexRgb(m.hx)},.22)`;
+    div.textContent = `MOD·${m.id}`;
+    lc.appendChild(div);
+  });
+}
+
+// ── ANIMATION LOOP ────────────────────────────────────────
+const shipVel = new THREE.Vector3();
+const tmpVec  = new THREE.Vector3();
+let t = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  t += 0.016;
+
+  const speed = (keys['ShiftLeft'] || keys['ShiftRight']) ? 0.22 : 0.08;
+  const turn  = 0.024;
+
+  // Ship rotation
+  if (keys['ArrowUp'])    ship.rotateX( turn);
+  if (keys['ArrowDown'])  ship.rotateX(-turn);
+  if (keys['ArrowLeft'])  ship.rotateY( turn);
+  if (keys['ArrowRight']) ship.rotateY(-turn);
+  if (keys['KeyQ'])       ship.rotateZ( turn * 0.8);
+  if (keys['KeyE'])       ship.rotateZ(-turn * 0.8);
+
+  // Thrust
+  const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(ship.quaternion);
+  if (keys['KeyW'] || keys['ShiftLeft'] || keys['ShiftRight']) {
+    tmpVec.copy(forward).multiplyScalar(speed);
+    shipVel.add(tmpVec);
+  }
+  if (keys['KeyS']) {
+    tmpVec.copy(forward).multiplyScalar(-speed * 0.65);
+    shipVel.add(tmpVec);
+  }
+
+  // Auto gentle drift forward
+  tmpVec.copy(forward).multiplyScalar(0.035);
+  shipVel.add(tmpVec);
+
+  shipVel.multiplyScalar(0.87);
+  ship.position.add(shipVel);
+
+  // Universe bounds
+  ship.position.x = Math.max(-95, Math.min(95, ship.position.x));
+  ship.position.y = Math.max(-55, Math.min(55, ship.position.y));
+  ship.position.z = Math.max(-130, Math.min(36, ship.position.z));
+
+  // Engine glow pulse
+  ship.children.forEach(c => {
+    if (c.material && c.material.transparent && c.material.color &&
+        c.material.color.getHex() === 0x7b2fff && c.geometry &&
+        c.geometry.type === 'CylinderGeometry') {
+      c.material.opacity = 0.5 + Math.sin(t * 9) * 0.35;
+    }
+  });
+
+  // Gem spin
+  gem.rotation.y += 0.045;
+
+  // Camera follow
+  const camBase = new THREE.Vector3(0, camOffV * 8 + 2.5, camDist);
+  camBase.applyQuaternion(ship.quaternion);
+  camBase.applyAxisAngle(new THREE.Vector3(0, 1, 0), camOffH);
+  const targetCam = ship.position.clone().add(camBase);
+  camera.position.lerp(targetCam, 0.09);
+  const lookAhead = ship.position.clone().add(forward.clone().multiplyScalar(6));
+  camera.lookAt(lookAhead);
+
+  // World animations
+  worldGroups.forEach((g, i) => {
+    g.rotation.y += 0.003 + i * 0.0005;
+    if (g.userData.shape === 'torusknot') g.rotation.x += 0.001;
+    if (g.userData.shape === 'ringworld') g.rotation.z += 0.004;
+    if (g.userData.shape === 'helix')     g.rotation.x += 0.002;
+
+    // Dot cloud orbit
+    const ci = g.children.length;
+    g.children.forEach((c, idx) => {
+      if (idx > 3 && c.geometry && c.geometry.parameters && c.geometry.parameters.width < 0.3) {
+        c.rotation.x += 0.022;
+        c.rotation.y += 0.016;
+        const r = 10 + Math.sin(idx) * 2;
+        const a = idx * 0.618 + t * 0.055;
+        const elev = Math.sin(idx * 0.4 + t * 0.03) * 4;
+        c.position.set(Math.sin(a) * r, elev, Math.cos(a) * r);
+      }
+    });
+
+    // Billboard tag faces camera
+    g.children.forEach(c => {
+      if (c.userData.isTag) {
+        const wp = new THREE.Vector3(); g.getWorldPosition(wp);
+        c.lookAt(camera.position);
+      }
+    });
+
+    // Proximity scale pulse
+    const dist = ship.position.distanceTo(g.position);
+    const sc = dist < 22 ? 1 + (1 - dist / 22) * 0.06 : 1;
+    g.scale.lerp(new THREE.Vector3(sc, sc, sc), 0.08);
+    g.children.forEach(c => {
+      if (c.material && c.material.wireframe) {
+        c.material.opacity = dist < 25
+          ? 0.15 + Math.sin(t * 3 + i) * 0.12
+          : 0.12;
+      }
+    });
+  });
+
+  // Orbit rings rotate
+  ring1.rotation.z += 0.004;
+  ring2.rotation.z -= 0.002;
+
+  // Stars slow drift
+  starField.rotation.y += 0.00008;
+
+  renderer.render(scene, camera);
+  updateLabels();
+}
+
+animate();
+</script>
+</body>
+</html>

@@ -12,7 +12,6 @@
     --pulse: #ff2d78;
     --glow: #00ffb3;
     --star: #c8c4ff;
-    --mid: #0d0b1a;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,48 +24,120 @@
     color: var(--star);
   }
 
-  /* STARFIELD */
-  .starfield {
-    position: fixed; inset: 0;
+  /* THREE.JS CANVAS */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
     z-index: 0;
-  }
-
-  .starfield canvas {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
   }
 
   /* NEBULA BLOBS */
   .nebula {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     z-index: 1;
     background:
       radial-gradient(ellipse 50% 40% at 20% 30%, rgba(123,47,255,0.18) 0%, transparent 60%),
       radial-gradient(ellipse 60% 30% at 80% 70%, rgba(255,45,120,0.12) 0%, transparent 55%),
       radial-gradient(ellipse 40% 50% at 60% 20%, rgba(0,255,179,0.06) 0%, transparent 50%);
     animation: nebula-drift 20s ease-in-out infinite alternate;
+    pointer-events: none;
   }
 
   /* VIGNETTE */
   .vignette {
-    position: fixed; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 30%, rgba(3,4,10,0.8) 100%);
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(3,4,10,0.85) 100%);
     z-index: 2;
     pointer-events: none;
   }
 
-  /* HORIZONTAL LINES */
+  /* SCAN LINES */
   .lines {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     background: repeating-linear-gradient(
       0deg, transparent 0px, transparent 59px,
-      rgba(123,47,255,0.04) 59px, rgba(123,47,255,0.04) 60px
+      rgba(123,47,255,0.03) 59px, rgba(123,47,255,0.03) 60px
     );
     z-index: 3;
     pointer-events: none;
   }
 
-  /* STAGE */
+  /* ORBIT RINGS */
+  .orbit-ring {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    border: 1px solid rgba(123,47,255,0.1);
+    border-radius: 50%;
+    animation: slow-rotate 40s linear infinite;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .orbit-ring::before {
+    content: '';
+    position: absolute;
+    top: -5px; left: 50%;
+    width: 10px; height: 10px;
+    background: var(--bloom);
+    border-radius: 50%;
+    box-shadow: 0 0 16px var(--bloom), 0 0 32px var(--bloom);
+    transform: translateX(-50%);
+  }
+  .orbit-ring-2 {
+    width: 820px; height: 820px;
+    border-color: rgba(255,45,120,0.06);
+    animation: slow-rotate 70s linear infinite reverse;
+  }
+  .orbit-ring-2::before {
+    background: var(--pulse);
+    box-shadow: 0 0 12px var(--pulse), 0 0 24px var(--pulse);
+  }
+  .orbit-ring-3 {
+    width: 380px; height: 380px;
+    border-color: rgba(0,255,179,0.07);
+    animation: slow-rotate 25s linear infinite;
+  }
+  .orbit-ring-3::before {
+    background: var(--glow);
+    box-shadow: 0 0 10px var(--glow);
+    width: 7px; height: 7px; top: -3px;
+  }
+
+  /* CORNER BRACKETS */
+  .corner {
+    position: fixed;
+    z-index: 20;
+    opacity: 0.35;
+  }
+  .tl { top: 1.5rem; left: 1.5rem; }
+  .tr { top: 1.5rem; right: 1.5rem; }
+  .bl { bottom: 1.5rem; left: 1.5rem; }
+  .br { bottom: 1.5rem; right: 1.5rem; }
+  .corner svg { display: block; }
+
+  /* SYS LABELS */
+  .sys-tl {
+    position: fixed; top: 1.5rem; left: 4.5rem;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.5rem; letter-spacing: 0.25em;
+    color: rgba(123,47,255,0.35); text-transform: uppercase;
+    z-index: 20;
+  }
+  .sys-br {
+    position: fixed; bottom: 1.5rem; right: 4.5rem;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.5rem; letter-spacing: 0.2em;
+    color: rgba(200,196,255,0.15); text-transform: uppercase;
+    z-index: 20; text-align: right; line-height: 1.9;
+  }
+
+  /* MAIN STAGE */
   .stage {
     position: relative;
     z-index: 10;
@@ -79,336 +150,283 @@
     padding: 2rem;
   }
 
-  /* ORBIT RING */
-  .orbit-ring {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px; height: 500px;
-    border: 1px solid rgba(123,47,255,0.12);
-    border-radius: 50%;
-    animation: slow-rotate 40s linear infinite;
-    z-index: 4;
-    pointer-events: none;
-  }
-
-  .orbit-ring::before {
-    content: '';
-    position: absolute;
-    top: -4px; left: 50%;
-    width: 8px; height: 8px;
-    background: var(--bloom);
-    border-radius: 50%;
-    box-shadow: 0 0 12px var(--bloom), 0 0 24px var(--bloom);
-    transform: translateX(-50%);
-  }
-
-  .orbit-ring-2 {
-    width: 700px; height: 700px;
-    border-color: rgba(255,45,120,0.06);
-    animation: slow-rotate 70s linear infinite reverse;
-  }
-
-  .orbit-ring-2::before {
-    background: var(--pulse);
-    box-shadow: 0 0 12px var(--pulse), 0 0 24px var(--pulse);
-  }
-
-  /* MAIN BLOCK */
   .eyebrow {
     font-family: 'Courier Prime', monospace;
     font-size: 0.62rem;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
     color: var(--glow);
-    opacity: 0.6;
+    opacity: 0;
     margin-bottom: 1.5rem;
     animation: fade-in 1s ease forwards 0.3s;
-    opacity: 0;
   }
 
   .main-title {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: clamp(3rem, 9vw, 8rem);
+    font-size: clamp(3rem, 9vw, 8.5rem);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     line-height: 0.85;
     color: var(--star);
-    position: relative;
-    animation: fade-in 1.2s ease forwards 0.5s;
     opacity: 0;
+    animation: fade-in 1.2s ease forwards 0.5s;
   }
-
   .main-title .line-glow {
     display: block;
     color: var(--bloom);
-    text-shadow: 0 0 30px rgba(123,47,255,0.7), 0 0 60px rgba(123,47,255,0.3);
+    text-shadow: 0 0 30px rgba(123,47,255,0.7), 0 0 70px rgba(123,47,255,0.3);
     font-weight: 300;
-    font-size: 0.4em;
-    letter-spacing: 0.5em;
-    margin-bottom: 0.2em;
+    font-size: 0.38em;
+    letter-spacing: 0.55em;
+    margin-bottom: 0.25em;
   }
-
   .main-title .big { display: block; }
-
-  .main-title .accent { color: var(--pulse); text-shadow: 0 0 20px rgba(255,45,120,0.5); }
+  .main-title .acc { color: var(--pulse); text-shadow: 0 0 20px rgba(255,45,120,0.5); }
 
   .garamond-sub {
     font-family: 'EB Garamond', serif;
     font-style: italic;
-    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    font-size: clamp(0.9rem, 2vw, 1.35rem);
     color: rgba(200,196,255,0.4);
     margin-top: 1.5rem;
     letter-spacing: 0.06em;
-    animation: fade-in 1s ease forwards 0.9s;
     opacity: 0;
+    animation: fade-in 1s ease forwards 0.9s;
   }
 
-  /* DIVIDER — signal line */
+  /* SIGNAL DIVIDER */
   .signal-div {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin: 2.5rem auto;
-    width: min(500px, 80vw);
-    animation: fade-in 1s ease forwards 1.1s;
+    width: min(520px, 80vw);
     opacity: 0;
+    animation: fade-in 1s ease forwards 1.1s;
   }
-
   .signal-div::before, .signal-div::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(123,47,255,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(123,47,255,0.5), transparent);
   }
-
   .signal-node {
     font-family: 'Courier Prime', monospace;
     font-size: 0.5rem;
     letter-spacing: 0.3em;
-    color: rgba(123,47,255,0.5);
+    color: rgba(123,47,255,0.55);
     text-transform: uppercase;
     white-space: nowrap;
+    animation: blink 2.4s ease-in-out infinite;
   }
 
   /* BUTTON */
   .btn-wrap {
-    animation: fade-in 1s ease forwards 1.4s;
     opacity: 0;
+    animation: fade-in 1s ease forwards 1.4s;
   }
-
   .open-btn {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.4em;
+    font-size: 0.85rem;
+    letter-spacing: 0.45em;
     text-transform: uppercase;
-    color: var(--void);
-    background: linear-gradient(135deg, var(--bloom), var(--pulse));
-    border: none;
-    padding: 1rem 3rem;
+    color: var(--star);
+    background: transparent;
+    border: 1px solid rgba(123,47,255,0.5);
+    padding: 1rem 3.5rem;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
     position: relative;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
-
   .open-btn::before {
     content: '';
     position: absolute;
-    inset: 1px;
-    background: var(--void);
-    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
-    transition: opacity 0.2s;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(123,47,255,0.15), rgba(255,45,120,0.08));
+    opacity: 0;
+    transition: opacity 0.25s;
   }
-
-  .open-btn span {
-    position: relative;
-    z-index: 1;
-    color: var(--star);
-    transition: color 0.2s;
-  }
-
-  .open-btn:hover::before { opacity: 0; }
-  .open-btn:hover span { color: var(--void); }
+  .open-btn:hover { border-color: var(--bloom); color: #fff; }
+  .open-btn:hover::before { opacity: 1; }
+  .open-btn:hover { box-shadow: 0 0 30px rgba(123,47,255,0.2); }
 
   /* STATS */
   .stats-row {
     display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
-    animation: fade-in 1s ease forwards 1.7s;
+    gap: 3.5rem;
+    margin-top: 2.5rem;
     opacity: 0;
+    animation: fade-in 1s ease forwards 1.7s;
   }
-
   .stat-item { text-align: center; }
-
   .stat-val {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 1;
     background: linear-gradient(135deg, var(--bloom), var(--glow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-
   .stat-lbl {
     font-family: 'Courier Prime', monospace;
     font-size: 0.5rem;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(200,196,255,0.25);
-    margin-top: 3px;
+    color: rgba(200,196,255,0.22);
+    margin-top: 4px;
   }
 
-  /* CORNERS */
-  .corner {
+  /* FLOATING PARTICLES */
+  .particle {
     position: fixed;
-    z-index: 20;
-    opacity: 0.2;
-  }
-  .tl { top: 1.5rem; left: 1.5rem; }
-  .tr { top: 1.5rem; right: 1.5rem; }
-  .bl { bottom: 1.5rem; left: 1.5rem; }
-  .br { bottom: 1.5rem; right: 1.5rem; }
-
-  .corner svg { display: block; }
-
-  /* SYS LABELS */
-  .sys-tl {
-    position: fixed; top: 1.5rem; left: 4rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.25em;
-    color: rgba(123,47,255,0.3);
-    text-transform: uppercase;
-    z-index: 20;
+    width: 2px; height: 2px;
+    background: var(--bloom);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 5;
+    animation: float-particle linear infinite;
+    opacity: 0;
   }
 
-  .sys-br {
-    position: fixed; bottom: 1.5rem; right: 4rem;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-    color: rgba(200,196,255,0.15);
-    text-transform: uppercase;
-    z-index: 20;
-    text-align: right;
-    line-height: 1.8;
-  }
-
-  @keyframes fade-in {
-    to { opacity: 1; }
-  }
-
+  @keyframes fade-in { to { opacity: 1; } }
   @keyframes nebula-drift {
     0% { transform: scale(1) rotate(0deg); }
-    100% { transform: scale(1.1) rotate(3deg); }
+    100% { transform: scale(1.1) rotate(4deg); }
   }
-
   @keyframes slow-rotate {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.1; }
+  }
+  @keyframes float-particle {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-20px) translateX(calc(var(--drift) * 1px)); opacity: 0; }
   }
 </style>
 </head>
 <body>
 
-<div class="starfield">
-  <canvas id="stars"></canvas>
-</div>
+<canvas id="bg-canvas"></canvas>
 <div class="nebula"></div>
 <div class="vignette"></div>
 <div class="lines"></div>
 
 <div class="orbit-ring"></div>
 <div class="orbit-ring orbit-ring-2"></div>
+<div class="orbit-ring orbit-ring-3"></div>
 
 <div class="corner tl">
-  <svg width="30" height="30" viewBox="0 0 30 30">
-    <path d="M0 30 L0 0 L30 0" stroke="rgba(123,47,255,0.6)" fill="none" stroke-width="1"/>
+  <svg width="32" height="32" viewBox="0 0 32 32">
+    <path d="M0 32 L0 0 L32 0" stroke="rgba(123,47,255,0.7)" fill="none" stroke-width="1"/>
   </svg>
 </div>
 <div class="corner tr">
-  <svg width="30" height="30" viewBox="0 0 30 30">
-    <path d="M30 30 L30 0 L0 0" stroke="rgba(123,47,255,0.6)" fill="none" stroke-width="1"/>
+  <svg width="32" height="32" viewBox="0 0 32 32">
+    <path d="M32 32 L32 0 L0 0" stroke="rgba(123,47,255,0.7)" fill="none" stroke-width="1"/>
   </svg>
 </div>
 <div class="corner bl">
-  <svg width="30" height="30" viewBox="0 0 30 30">
-    <path d="M0 0 L0 30 L30 30" stroke="rgba(123,47,255,0.6)" fill="none" stroke-width="1"/>
+  <svg width="32" height="32" viewBox="0 0 32 32">
+    <path d="M0 0 L0 32 L32 32" stroke="rgba(123,47,255,0.7)" fill="none" stroke-width="1"/>
   </svg>
 </div>
 <div class="corner br">
-  <svg width="30" height="30" viewBox="0 0 30 30">
-    <path d="M30 0 L30 30 L0 30" stroke="rgba(123,47,255,0.6)" fill="none" stroke-width="1"/>
+  <svg width="32" height="32" viewBox="0 0 32 32">
+    <path d="M32 0 L32 32 L0 32" stroke="rgba(123,47,255,0.7)" fill="none" stroke-width="1"/>
   </svg>
 </div>
 
 <div class="sys-tl">// ART104 · S2026 · node online</div>
-<div class="sys-br">37.9749°N · 122.0297°W<br>6 modules · 55 artifacts</div>
+<div class="sys-br">37.9749°N · 122.0297°W<br>6 modules · 56 artifacts</div>
 
 <main class="stage">
   <p class="eyebrow">// ART104 · Spring 2026 · Sealed Payload</p>
-  
+
   <h1 class="main-title">
     <span class="line-glow">◈ speculation capsule ◈</span>
-    <span class="big">SPEC<span class="accent">U</span></span>
+    <span class="big">SPEC<span class="acc">U</span></span>
     <span class="big">LATION</span>
   </h1>
 
-  <div class="garamond-sub">55 speculative artifacts — dispatched into the unknown</div>
+  <p class="garamond-sub">56 speculative artifacts — dispatched into the unknown</p>
 
   <div class="signal-div">
     <span class="signal-node">◈ payload sealed · awaiting authorization ◈</span>
   </div>
 
-  <div class="btn-wrap">
-    <a href="index.html" class="open-btn"><span>Open Capsule</span></a>
+  <div class="btn-wrap" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+    <a href="index.html" class="open-btn">Open Capsule</a>
+    <a href="space.html" class="open-btn" style="border-color:rgba(255,45,120,.5)">◈ Space World</a>
   </div>
 
   <div class="stats-row">
     <div class="stat-item"><div class="stat-val">06</div><div class="stat-lbl">Modules</div></div>
-    <div class="stat-item"><div class="stat-val">55</div><div class="stat-lbl">Artifacts</div></div>
+    <div class="stat-item"><div class="stat-val">56</div><div class="stat-lbl">Artifacts</div></div>
     <div class="stat-item"><div class="stat-val">S26</div><div class="stat-lbl">Semester</div></div>
   </div>
 </main>
 
 <script>
-  // Starfield
-  const canvas = document.getElementById('stars');
+  // Starfield canvas
+  const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  const stars = Array.from({length: 200}, () => ({
+
+  const stars = Array.from({ length: 280 }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    r: Math.random() * 1.2,
+    r: Math.random() * 1.4,
     a: Math.random(),
-    speed: 0.0002 + Math.random() * 0.0003
+    speed: 0.0002 + Math.random() * 0.0004
   }));
-  function draw() {
+
+  function drawStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(s => {
       s.a += s.speed;
-      const a = (Math.sin(s.a) + 1) / 2 * 0.8;
+      const alpha = (Math.sin(s.a) + 1) / 2 * 0.85;
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,196,255,${a})`;
+      ctx.fillStyle = `rgba(200,196,255,${alpha})`;
       ctx.fill();
     });
-    requestAnimationFrame(draw);
+    requestAnimationFrame(drawStars);
   }
-  draw();
+  drawStars();
+
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   });
-</script>
 
+  // Floating particles
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const colors = ['#7b2fff', '#ff2d78', '#00ffb3', '#c8c4ff'];
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      --drift: ${(Math.random() - 0.5) * 200};
+      animation-duration: ${6 + Math.random() * 10}s;
+      animation-delay: ${Math.random() * 8}s;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      box-shadow: 0 0 6px currentColor;
+    `;
+    document.body.appendChild(p);
+  }
+</script>
 </body>
 </html>
