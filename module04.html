@@ -64,10 +64,6 @@
   .modal-body { padding: 1.5rem 1.25rem; }
   .modal-body p { font-family: 'EB Garamond', serif; font-size: 0.95rem; line-height: 1.88; color: rgba(200,196,255,0.62); margin-bottom: 1rem; }
   .modal-body p:last-of-type { margin-bottom: 0; }
-  .modal-footnotes { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
-  .footnote-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .modal-footnotes a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; margin-bottom: 0.3rem; opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem; }
-  .modal-footnotes a:hover { opacity: 1; }
   footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid rgba(var(--cr),0.08); font-family: 'Courier Prime', monospace; font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,196,255,0.12); }
 </style>
 </head>
@@ -123,13 +119,43 @@
 
 <script>
 const moduleData = {
-  "1": { img:"reality1.png", title:"", p1:"Reality1 — add student reflection here.", p2:"Reality1 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "2": { img:"reality2.png", title:"", p1:"Reality2 — add student reflection here.", p2:"Reality2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "3": { img:"reality3.png", title:"", p1:"Reality3 — add student reflection here.", p2:"Reality3 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4": { img:"reality4.png", title:"", p1:"Reality4 — add student reflection here.", p2:"Reality4 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5": { img:"reality5.png", title:"", p1:"Reality5 — add student reflection here.", p2:"Reality5 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6": { img:"reality6.png", title:"", p1:"Reality6 — add student reflection here.", p2:"Reality6 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "7": { img:"reality7.png", title:"", p1:"Reality7 — add student reflection here.", p2:"Reality7 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1": {
+    img: "reality1.png",
+    title: "Tai, Ryan, Samantha",
+    p1: "This design is a futuristic form of virtual reality where a sentient VR headset connects to a user's thoughts and emotions, causing them to identify more with their in-game avatar than their real self. As players become more immersed, the game begins to shape their identity. Over time, this connection becomes so strong that the player is permanently trapped in the virtual world. It examines how advanced technology can blur the line between reality and simulation."
+  },
+  "2": {
+    img: "reality2.png",
+    title: "Phin, Zhiyun, Emis, Minh",
+    p1: "Our work relates to feelings about memory and loss. We are interested in how technology can keep parts of people alive through images and data, but those pieces never feel fully real. That in-between feeling—present but not truly there—is something we think about a lot. It also connects to our thoughts about loneliness. Even with digital connection everywhere, people can still feel isolated.",
+    p2: "Technology can recreate moments of closeness, but it cannot completely replace real presence. We made this piece to explore that tension between comfort and emptiness. We wanted to question whether virtual experiences can truly heal loss, or if they only create a temporary illusion of connection."
+  },
+  "3": {
+    img: "reality3.png",
+    title: "David C., Ethan, Miah",
+    p1: "Our speculative artwork imagines what it would look like to be able to relive memories through VR. By linking with your mind, the headset would be able to create a digital environment unique to you. Inside, you would be able to choose and rewatch memories in an immersive environment as if from a different perspective. The amount of detail rendered depends on how much you recall—meaning people you may have forgotten about will show up as blurry or unfinished."
+  },
+  "4": {
+    img: "reality4.png",
+    title: "Gab, Jo, Stella",
+    p1: "Wired Brain involves uploading your memories and conscience into a mobile video game where you can experience the digital realm in real time. It can be used post-death to relive memories or continue life. It exists in a futuristic world where this is the norm. You can discard physical form for a digital form. The piece is about taking something from our own reality—ourselves—and superimposing it onto another: the digital game reality."
+  },
+  "5": {
+    img: "reality5.png",
+    title: "David N., David P., Starr",
+    p1: "The video game itself is a digital copy of the real world in which the player is playing as himself. The color tech behind the person sends brainwave signals to trick his mind into believing it is the real world. The controller is an AI controller that helps him make good decisions. The player can see the screen, but we cannot, as we are not on the same brainwave. The game ends once the player falls asleep and is freed from the technology."
+  },
+  "6": {
+    img: "reality6.png",
+    title: "Rosalva, Rosemarie, Chris",
+    p1: "Our Virtual Identity allows users to become part of an inclusive self-portrait in virtual space. This work reflects ideas important to the theme of reality because we bring in the idea of hyper-reality—the notion that digital simulations can feel just as real as reality. It reflects our lived experience of always being online, where social media can feel just as tangible as the physical world. Some people in mainstream media tend to find ways to demonize video games; we wanted to show how life can be upgraded by gamifying it.",
+    p2: "The goal is to suggest how technology should be a tool for human potential, not a replacement for it. We want to reflect and help visualize the gap between who we are now and who we want to be—and to advocate for technology that feels more integrated and human than faceless AI robots."
+  },
+  "7": {
+    img: "reality7.png",
+    title: "Chloe, Catherine, Brianna",
+    p1: "Our final artwork, Are You Having Fun Yet?, focuses on the common threads throughout all of our sketches—among them a recurring composition with a punching bag character looming behind the VR player. One thing we wanted to make clear was the player's poor treatment of the fictional character, something that was lacking in some earlier sketches. We also wanted to convey a grand sense of scale, moving from the small fictional character in the hands of the player to the giant realized form of that character towering behind him."
+  }
 };
 
 function buildGrid() {
@@ -159,20 +185,18 @@ function openModal(id) {
   const padId = String(id).padStart(2,'0');
   document.getElementById('modal-mod-label').textContent = `MOD·04 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
+
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="images/${d.img}" alt="artifact ${id}" onerror="this.outerHTML='<div class=modal-img-placeholder><span>image: ${d.img}</span></div>'">`;
   } else {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
+
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
-    ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${d.p2 ? `<p>${d.p2}</p>` : ''}`;
+
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
 }
