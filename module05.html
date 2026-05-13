@@ -64,10 +64,6 @@
   .modal-body { padding: 1.5rem 1.25rem; }
   .modal-body p { font-family: 'EB Garamond', serif; font-size: 0.95rem; line-height: 1.88; color: rgba(200,196,255,0.62); margin-bottom: 1rem; }
   .modal-body p:last-of-type { margin-bottom: 0; }
-  .modal-footnotes { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
-  .footnote-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .modal-footnotes a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; margin-bottom: 0.3rem; opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem; }
-  .modal-footnotes a:hover { opacity: 1; }
   footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid rgba(var(--cr),0.08); font-family: 'Courier Prime', monospace; font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,196,255,0.12); }
 </style>
 </head>
@@ -87,8 +83,8 @@
     <h1 class="mod-title">Nature / Ecology<br>/ Environment</h1>
   </div>
   <div class="mod-right">
-    <span class="mod-count-big">07</span>
-    07 artifacts<br>Spring 2026
+    <span class="mod-count-big">06</span>
+    06 artifacts<br>Spring 2026
   </div>
 </div>
 
@@ -98,11 +94,11 @@
 </div>
 
 <main class="main">
-  <div class="section-label">7 artifacts · nature / ecology / environment</div>
+  <div class="section-label">6 artifacts · nature / ecology / environment</div>
   <div class="project-grid" id="grid"></div>
 </main>
 
-<footer>ART104 · Spring 2026 · MOD·05 · 07 Artifacts · Speculation Capsule</footer>
+<footer>ART104 · Spring 2026 · MOD·05 · 06 Artifacts · Speculation Capsule</footer>
 
 <div class="modal" id="modal">
   <div class="modal-box">
@@ -123,13 +119,40 @@
 
 <script>
 const moduleData = {
-  "1": { img:"nature1.png", title:"", p1:"Nature1 — add student reflection here.", p2:"Nature1 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "2": { img:"nature2.png", title:"", p1:"Nature2 — add student reflection here.", p2:"Nature2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "3": { img:"nature3.png", title:"", p1:"Nature3 — add student reflection here.", p2:"Nature3 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4": { img:"nature4.png", title:"", p1:"Nature4 — add student reflection here.", p2:"Nature4 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5": { img:"nature5.png", title:"", p1:"Nature5 — add student reflection here.", p2:"Nature5 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6": { img:"nature6.png", title:"", p1:"Nature6 — add student reflection here.", p2:"Nature6 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "7": { img:"nature7.png", title:"", p1:"Nature7 — add student reflection here.", p2:"Nature7 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1": {
+    img: "nature1.png",
+    title: "Tai, Ryan, David, Samantha",
+    p1: "While hospital patients recover from their injuries, they rest inside bed pods that have speakers playing natural sounds and a smelling device that releases natural fragrances. Patients who are able to see use AR glasses in combination with the fragrance and audio devices. Patients who are unable to see or who are unconscious have a brain device that works with the fragrance and audio devices to create a nature-based VR environment for them to experience."
+  },
+  "2": {
+    img: "nature2.png",
+    title: "Minh, David P., Chloe",
+    p1: "This is the idea of very advanced VR/AR that allows the user to use their thoughts and emotions to power the device, which in turn powers artificial life objects shaped by how the user imagines nature—some may form these objects beautifully, others may not.",
+    p2: "This piece examines technology's attempt to recreate life through artificial systems. The controlled, repetitive cube environment contrasts with the central organic form, highlighting the tension between structured digital space and unpredictable living forms. The glowing green, repeating cubes represent system rules, while the soft, irregular form conveys growth and change—reflecting concepts from artificial life art, where simple rules generate organic behavior.",
+    p3: "The work critiques rigid digital systems by placing them against organic, evolving forms. It proposes a balance where technology and nature interact instead of opposing each other. Life-like behavior can emerge from simple structures, but still feels fundamentally different from real nature."
+  },
+  "3": {
+    img: "nature3.png",
+    title: "Brianna, Ethan, Miah, Phin",
+    p1: "Within a new post-humanist and synthetic ecosystem, plants are genetically modified to block extreme radiation from climate change and broken ozone layers, filter extreme emissions and greenhouse gases, and act as solar panels for sustainable power and energy. With this, many animals adapt to grow even larger, reclaiming \"nature.\" Humans soon evolve to combat the natural cycle of life, adapting to living among these gigantic genetically modified plants—like chameleons, they are born above ground underneath the leaves, genetically advanced to directly absorb nutrients, energy, and oxygen, and grow inside their egg. An evolutionary phenomenon that is biotechnologically based."
+  },
+  "4": {
+    img: "nature4.png",
+    title: "Emis, Gab, Jo, Zhiyun",
+    p1: "Free of Charge is a completely functional public 3D sculpture and installation made of recycled e-waste materials, secondarily acting as a place for people to leave their e-waste and take any that they need. It includes alternative power sources to provide free-use chargers, printers, screens, and more—such as the solar panels shown in the render, though it could also harness wind energy. The piece is a representation of how technology negatively affects the environment, and how we can make use of recycling and alternative resources to counteract that."
+  },
+  "5": {
+    img: "nature5.png",
+    title: "Catherine, Starr, Stella, David N.",
+    p1: "Humanity has been fascinated with creating artificial life throughout history. Computer and biological technology turns that dream into something more realistic with each and every advancement. This project critiques these attempts as potentially irresponsible and dangerous.",
+    p2: "Nature and evolution are things we can never truly control—because humans are also part of, and subject to, the same laws of nature we try to manipulate. This work showcases our belief that nature is unpredictable and should not be tampered with carelessly."
+  },
+  "6": {
+    img: "nature6.png",
+    title: "Christian, Rosemarie, Rosalva",
+    p1: "The final render of what we decided to make here was a creature designed to mimic a real animal—in this case, a sea otter. The purpose of the creature is to give people access to an underwater view not seen before. \"OT3R\" was made as a way to collect data from sea life without appearing out of place in its habitat. The robot inserts itself into the environment in order to gather data.",
+    p2: "However, the bigger question we ask is: how does this affect existing life? Would it displace other sea otters, or could they somehow benefit from its presence?"
+  }
 };
 
 function buildGrid() {
@@ -159,20 +182,19 @@ function openModal(id) {
   const padId = String(id).padStart(2,'0');
   document.getElementById('modal-mod-label').textContent = `MOD·05 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
+
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="images/${d.img}" alt="artifact ${id}" onerror="this.outerHTML='<div class=modal-img-placeholder><span>image: ${d.img}</span></div>'">`;
   } else {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
+
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
     ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${d.p3 ? `<p>${d.p3}</p>` : ''}`;
+
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
 }
