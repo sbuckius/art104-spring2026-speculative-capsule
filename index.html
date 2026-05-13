@@ -5,381 +5,476 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPECULATION CAPSULE // ART104</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-  :root {
-    --void: #03040a;
-    --bloom: #7b2fff;
-    --pulse: #ff2d78;
-    --glow: #00ffb3;
-    --star: #c8c4ff;
-    --panel: #080614;
-  }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    background: var(--void);
-    color: var(--star);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 10% 20%, rgba(123,47,255,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(255,45,120,0.05) 0%, transparent 55%);
-    pointer-events: none; z-index: 0;
-  }
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(123,47,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(123,47,255,0.025) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 0; pointer-events: none;
-  }
+  :root { --void:#03040a; --bloom:#7b2fff; --pulse:#ff2d78; --glow:#00ffb3; --star:#c8c4ff; --panel:#080614; }
+  html, body { background:var(--void); overflow:hidden; font-family:'Rajdhani',sans-serif; color:var(--star); height:100vh; width:100vw; }
+  #c { display:block; position:fixed; inset:0; width:100%; height:100%; z-index:0; }
+  #ui { position:fixed; inset:0; z-index:10; pointer-events:none; }
 
   /* HEADER */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(3,4,10,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(123,47,255,0.14);
-    padding: 1.2rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .logo {
-    font-weight: 700; font-size: 1rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--star); text-decoration: none;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .logo-gem {
-    width: 10px; height: 10px;
-    background: var(--bloom);
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    box-shadow: 0 0 10px var(--bloom);
-  }
-  .header-right {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.55rem; letter-spacing: 0.25em;
-    text-transform: uppercase; color: rgba(200,196,255,0.22);
-  }
+  header { position:absolute; top:0; left:0; right:0; background:rgba(3,4,10,.85); backdrop-filter:blur(12px); border-bottom:1px solid rgba(123,47,255,.14); padding:1rem 1.8rem; display:flex; align-items:center; justify-content:space-between; pointer-events:all; }
+  .logo { font-weight:700; font-size:.95rem; letter-spacing:.1em; text-transform:uppercase; color:var(--star); text-decoration:none; display:flex; align-items:center; gap:.65rem; }
+  .logo-gem { width:9px; height:9px; background:var(--bloom); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); box-shadow:0 0 9px var(--bloom); flex-shrink:0; }
+  .header-right { display:flex; align-items:center; gap:1rem; }
+  .header-meta { font-family:'Courier Prime',monospace; font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(200,196,255,.22); }
+  .nav-btn { font-family:'Courier Prime',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--star); background:transparent; border:1px solid rgba(123,47,255,.35); padding:.35rem .85rem; text-decoration:none; transition:all .2s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
+  .nav-btn:hover { background:rgba(123,47,255,.18); border-color:var(--bloom); color:#fff; }
 
-  /* HERO */
-  .hero {
-    position: relative; z-index: 1;
-    padding: 3rem 2rem 2.5rem;
-    border-bottom: 1px solid rgba(123,47,255,0.1);
-    display: flex; align-items: flex-end;
-    justify-content: space-between; gap: 2rem;
-  }
-  .hero-title {
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 4.5rem);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    line-height: 1; color: var(--star);
-  }
-  .hero-title .small {
-    display: block;
-    font-family: 'EB Garamond', serif;
-    font-style: italic; font-weight: 400;
-    font-size: 0.35em; letter-spacing: 0.12em;
-    color: rgba(200,196,255,0.38);
-    margin-bottom: 0.5em; text-transform: none;
-  }
-  .hero-glow { color: var(--bloom); text-shadow: 0 0 20px rgba(123,47,255,0.5); }
-  .hero-right {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.55rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: rgba(200,196,255,0.18);
-    text-align: right; line-height: 2; white-space: nowrap;
-  }
+  /* CORNERS */
+  .corner { position:absolute; pointer-events:none; opacity:.3; }
+  .tl{top:62px;left:12px} .tr{top:62px;right:12px} .bl{bottom:12px;left:12px} .br{bottom:12px;right:12px}
 
-  /* GRID */
-  .grid {
-    position: relative; z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1px;
-    padding: 2rem;
-  }
+  /* SYS LABELS */
+  .sys-bl { position:absolute; bottom:14px; left:42px; font-family:'Courier Prime',monospace; font-size:.44rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(200,196,255,.14); line-height:1.9; pointer-events:none; }
+  .sys-br { position:absolute; bottom:14px; right:42px; font-family:'Courier Prime',monospace; font-size:.44rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(200,196,255,.14); text-align:right; line-height:1.9; pointer-events:none; }
 
-  .card {
-    background: var(--panel);
-    border: 1px solid rgba(123,47,255,0.1);
-    padding: 2rem; position: relative; overflow: hidden;
-    cursor: pointer; transition: border-color 0.3s, transform 0.25s;
-    text-decoration: none; color: inherit; display: block;
-  }
-  .card:hover {
-    border-color: rgba(123,47,255,0.4);
-    transform: translateY(-3px);
-  }
-  .card::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at top right, rgba(123,47,255,0.07) 0%, transparent 60%);
-    opacity: 0; transition: opacity 0.3s;
-  }
-  .card:hover::before { opacity: 1; }
-  .card::after {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, var(--c, var(--bloom)), transparent);
-    opacity: 0.65;
-  }
+  /* STATS BADGE */
+  .stats-badge { position:absolute; top:72px; right:14px; background:rgba(8,6,20,.88); border:1px solid rgba(123,47,255,.18); padding:.65rem .9rem; text-align:center; pointer-events:none; }
+  .badge-val { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.6rem; line-height:1; color:var(--bloom); text-shadow:0 0 14px rgba(123,47,255,.5); display:block; }
+  .badge-lbl { font-family:'Courier Prime',monospace; font-size:.38rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(200,196,255,.2); display:block; margin-top:1px; }
+  .badge-div { height:1px; background:rgba(123,47,255,.14); margin:.38rem 0; }
 
-  /* color variants */
-  .m01 { --c: #7b2fff; }
-  .m02 { --c: #ff6eb4; }
-  .m03 { --c: #00ffb3; }
-  .m04 { --c: #00b4ff; }
-  .m05 { --c: #b4ff00; }
-  .m06 { --c: #ff2d78; }
+  /* MODULE OVERLAYS */
+  .mod-overlay { position:absolute; transform:translate(-50%,-50%); pointer-events:none; display:flex; flex-direction:column; align-items:center; text-align:center; gap:0; }
+  .mod-tag { font-family:'Courier Prime',monospace; font-size:.42rem; letter-spacing:.28em; text-transform:uppercase; display:flex; align-items:center; gap:.3rem; margin-bottom:.18rem; opacity:.8; }
+  .mod-tag::before { content:''; width:4px; height:4px; flex-shrink:0; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); background:currentColor; box-shadow:0 0 5px currentColor; }
+  .mod-title-text { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:clamp(.58rem,.95vw,.82rem); letter-spacing:.06em; text-transform:uppercase; color:#c8c4ff; line-height:1.2; text-shadow:0 0 16px rgba(0,0,0,.95); }
+  .mod-sub-text { font-family:'EB Garamond',serif; font-style:italic; font-size:clamp(.48rem,.72vw,.62rem); color:rgba(200,196,255,.3); margin-top:.18rem; line-height:1.3; }
+  .adots { display:flex; flex-wrap:wrap; gap:3px; justify-content:center; margin-top:.28rem; max-width:80px; }
+  .adot { width:5px; height:5px; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); }
+  .adot.dim { opacity:.14; }
+  .mod-count { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:clamp(.85rem,1.5vw,1.3rem); line-height:1; margin-top:.3rem; text-shadow:0 0 12px currentColor; }
+  .mod-enter-btn { font-family:'Courier Prime',monospace; font-size:.42rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(200,196,255,.25); background:transparent; border:1px solid rgba(200,196,255,.15); padding:.28rem .7rem; margin-top:.35rem; text-decoration:none; transition:all .2s; cursor:pointer; clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); pointer-events:all; display:inline-block; }
+  .mod-enter-btn:hover { color:#fff; }
 
-  .card-num-bg {
-    position: absolute; right: -0.5rem; bottom: -1.2rem;
-    font-weight: 700; font-size: 8.5rem;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(200,196,255,0.038);
-    line-height: 1; pointer-events: none;
-    user-select: none; letter-spacing: -0.05em;
-  }
-  .card-tag {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.52rem; letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--c, var(--bloom)); opacity: 0.75;
-    margin-bottom: 0.8rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .card-tag::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--c, var(--bloom));
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    box-shadow: 0 0 6px var(--c, var(--bloom));
-    flex-shrink: 0;
-  }
-  .card-title {
-    font-weight: 700; font-size: 1.22rem;
-    letter-spacing: 0.05em; text-transform: uppercase;
-    color: var(--star); line-height: 1.2; margin-bottom: 0.4rem;
-  }
-  .card-sub {
-    font-family: 'EB Garamond', serif;
-    font-style: italic; font-size: 0.85rem;
-    color: rgba(200,196,255,0.28); margin-bottom: 1.5rem; line-height: 1.5;
-  }
-
-  /* ARTIFACT DOTS */
-  .artifact-dots {
-    display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 1.5rem;
-  }
-  .adot {
-    width: 8px; height: 8px;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background: var(--c, var(--bloom));
-    transition: all 0.15s;
-  }
-  .adot.dim { background: rgba(200,196,255,0.07); }
-  .adot:hover { transform: scale(1.5); box-shadow: 0 0 7px var(--c, var(--bloom)); }
-
-  .card-footer {
-    display: flex; justify-content: space-between; align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(200,196,255,0.05);
-  }
-  .count-block .n {
-    font-weight: 700; font-size: 2rem; line-height: 1;
-    color: var(--c, var(--bloom));
-    text-shadow: 0 0 15px var(--c, var(--bloom));
-  }
-  .count-block .l {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.44rem; letter-spacing: 0.25em;
-    text-transform: uppercase; color: rgba(200,196,255,0.18); margin-top: 2px;
-  }
-  .enter {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.56rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: rgba(200,196,255,0.22);
-    transition: color 0.2s;
-    display: flex; align-items: center; gap: 0.4rem;
-  }
-  .card:hover .enter { color: var(--c, var(--bloom)); }
-
-  /* SHAPE ICON — 3D geometry preview per module */
-  .shape-icon {
-    position: absolute;
-    top: 1.5rem; right: 1.5rem;
-    width: 42px; height: 42px;
-    opacity: 0.18;
-    transition: opacity 0.3s, transform 0.3s;
-  }
-  .card:hover .shape-icon { opacity: 0.38; transform: rotate(12deg) scale(1.05); }
-
-  footer {
-    position: relative; z-index: 1;
-    text-align: center; padding: 2rem;
-    border-top: 1px solid rgba(123,47,255,0.08);
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.5rem; letter-spacing: 0.25em;
-    text-transform: uppercase; color: rgba(200,196,255,0.12);
-  }
+  @keyframes blink-slow{0%,100%{opacity:.7}50%{opacity:.15}}
 </style>
 </head>
 <body>
+<canvas id="c"></canvas>
 
-<header>
-  <a href="splash.html" class="logo">
-    <div class="logo-gem"></div>
-    Speculation Capsule
-  </a>
-  <div class="header-right">ART104 · Spring 2026 · 56 Artifacts</div>
-</header>
-
-<div class="hero">
-  <div class="hero-title">
-    <span class="small">manifest — module index</span>
-    <span class="hero-glow">Specu</span>lation<br>Capsule
-  </div>
-  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem">
-    <div class="hero-right">
-      6 modules<br>
-      56 artifacts<br>
-      Spring 2026<br>
-      37.9749°N
+<div id="ui">
+  <header>
+    <a href="splash.html" class="logo"><div class="logo-gem"></div>Speculation Capsule</a>
+    <div class="header-right">
+      <span class="header-meta">ART104 · Spring 2026 · 56 Artifacts</span>
+      <a href="space.html" class="nav-btn">◈ Space World</a>
+      <a href="splash.html" class="nav-btn">← Splash</a>
     </div>
-    <a href="space.html" style="font-family:'Courier Prime',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:#c8c4ff;background:transparent;border:1px solid rgba(123,47,255,.4);padding:.42rem 1.1rem;text-decoration:none;transition:all .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);white-space:nowrap" onmouseover="this.style.background='rgba(123,47,255,.18)';this.style.borderColor='#7b2fff'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(123,47,255,.4)'">◈ Enter Space World →</a>
+  </header>
+
+  <div class="corner tl"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M0 20L0 0L20 0" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner tr"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M20 20L20 0L0 0" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner bl"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M0 0L0 20L20 20" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+  <div class="corner br"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M20 0L20 20L0 20" stroke="rgba(123,47,255,.8)" fill="none" stroke-width="1"/></svg></div>
+
+  <div class="sys-bl">ART104 · Spring 2026 · 56 Transmissions<br>All nodes monitored</div>
+  <div class="sys-br">37.9749°N · 122.0297°W<br>6 modules · 56 artifacts</div>
+
+  <div class="stats-badge">
+    <span class="badge-val">56</span><span class="badge-lbl">Artifacts</span>
+    <div class="badge-div"></div>
+    <span class="badge-val" style="color:#ff2d78;text-shadow:0 0 14px rgba(255,45,120,.5)">06</span><span class="badge-lbl">Modules</span>
+    <div class="badge-div"></div>
+    <span class="badge-val" style="font-size:.85rem;color:rgba(200,196,255,.3)">S26</span><span class="badge-lbl">Semester</span>
   </div>
+
+  <div id="labels"></div>
 </div>
 
-<main class="grid">
-
-  <a href="module01.html" class="card m01">
-    <div class="card-num-bg">01</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <path d="M21 4 C28 4 38 10 38 21 C38 32 28 38 21 38 C14 38 4 32 4 21 C4 10 14 4 21 4Z" stroke="#7b2fff" stroke-width="1.5"/>
-      <path d="M21 4 C21 4 38 21 21 38 C21 38 4 21 21 4Z" stroke="#7b2fff" stroke-width="0.8"/>
-      <circle cx="21" cy="21" r="5" stroke="#7b2fff" stroke-width="1"/>
-    </svg>
-    <div class="card-tag">MOD·01 · Active</div>
-    <div class="card-title">Computer History<br>&amp; Technology</div>
-    <div class="card-sub">Machines / memory / infrastructure</div>
-    <div class="artifact-dots" id="d01"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">22</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-  <a href="module02.html" class="card m02">
-    <div class="card-num-bg">02</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <polygon points="21,4 38,14 38,28 21,38 4,28 4,14" stroke="#ff6eb4" stroke-width="1.5"/>
-      <polygon points="21,10 32,17 32,25 21,32 10,25 10,17" stroke="#ff6eb4" stroke-width="0.8"/>
-    </svg>
-    <div class="card-tag">MOD·02 · Transmitting</div>
-    <div class="card-title">Human / Self<br>/ Identity / Body</div>
-    <div class="card-sub">Embodied systems / selfhood / presence</div>
-    <div class="artifact-dots" id="d02"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">07</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-  <a href="module03.html" class="card m03">
-    <div class="card-num-bg">03</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <polygon points="21,4 38,32 4,32" stroke="#00ffb3" stroke-width="1.5"/>
-      <polygon points="21,14 30,28 12,28" stroke="#00ffb3" stroke-width="0.8"/>
-      <line x1="21" y1="4" x2="21" y2="32" stroke="#00ffb3" stroke-width="0.5"/>
-    </svg>
-    <div class="card-tag">MOD·03 · Active</div>
-    <div class="card-title">Information &amp;<br>Communication</div>
-    <div class="card-sub">Signal / noise / transmission / networks</div>
-    <div class="artifact-dots" id="d03"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">07</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-  <a href="module04.html" class="card m04">
-    <div class="card-num-bg">04</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <ellipse cx="21" cy="21" rx="17" ry="8" stroke="#00b4ff" stroke-width="1.5"/>
-      <circle cx="21" cy="21" r="5" stroke="#00b4ff" stroke-width="1"/>
-      <ellipse cx="21" cy="21" rx="17" ry="8" stroke="#00b4ff" stroke-width="0.5" transform="rotate(60 21 21)"/>
-    </svg>
-    <div class="card-tag">MOD·04 · Standby</div>
-    <div class="card-title">Reality</div>
-    <div class="card-sub">Simulation / perception / constructed worlds</div>
-    <div class="artifact-dots" id="d04"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">07</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-  <a href="module05.html" class="card m05">
-    <div class="card-num-bg">05</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <rect x="8" y="8" width="26" height="26" stroke="#b4ff00" stroke-width="1.5" transform="rotate(15 21 21)"/>
-      <rect x="13" y="13" width="16" height="16" stroke="#b4ff00" stroke-width="0.8" transform="rotate(30 21 21)"/>
-    </svg>
-    <div class="card-tag">MOD·05 · Standby</div>
-    <div class="card-title">Nature / Ecology<br>/ Environment</div>
-    <div class="card-sub">Sustainability / more-than-human futures</div>
-    <div class="artifact-dots" id="d05"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">07</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-  <a href="module06.html" class="card m06">
-    <div class="card-num-bg">06</div>
-    <svg class="shape-icon" viewBox="0 0 42 42" fill="none">
-      <path d="M21 6 L36 36 L6 36 Z" stroke="#ff2d78" stroke-width="1.5"/>
-      <path d="M21 6 L6 36" stroke="#ff2d78" stroke-width="0.6"/>
-      <path d="M21 6 L36 36" stroke="#ff2d78" stroke-width="0.6"/>
-      <circle cx="21" cy="6" r="2" fill="#ff2d78" opacity="0.6"/>
-      <circle cx="6" cy="36" r="2" fill="#ff2d78" opacity="0.6"/>
-      <circle cx="36" cy="36" r="2" fill="#ff2d78" opacity="0.6"/>
-    </svg>
-    <div class="card-tag">MOD·06 · Standby</div>
-    <div class="card-title">Self-Proposed</div>
-    <div class="card-sub">Open vector / artist-defined inquiry</div>
-    <div class="artifact-dots" id="d06"></div>
-    <div class="card-footer">
-      <div class="count-block"><div class="n">06</div><div class="l">Projects</div></div>
-      <div class="enter">Enter →</div>
-    </div>
-  </a>
-
-</main>
-
-<footer>ART104 · Spring 2026 · Speculative Futures · 56 Transmissions · All nodes monitored</footer>
-
 <script>
-  const counts = { '01': 22, '02': 7, '03': 7, '04': 7, '05': 7, '06': 6 };
-  Object.entries(counts).forEach(([id, n]) => {
-    const el = document.getElementById('d' + id);
-    if (!el) return;
-    for (let i = 0; i < n; i++) {
-      const d = document.createElement('div');
-      d.className = 'adot' + (Math.random() > 0.42 ? '' : ' dim');
-      el.appendChild(d);
+const MODULES = [
+  { id:'01', label:'Computer History\n& Technology',  sub:'Machines / memory / infrastructure',           color:0x7b2fff, hx:'7b2fff', x:-4.0, z:-4.0, n:22, status:'Active',       href:'module01.html' },
+  { id:'02', label:'Human / Self\n/ Identity / Body', sub:'Embodied systems / selfhood / presence',       color:0xff6eb4, hx:'ff6eb4', x: 4.0, z:-4.0, n: 7, status:'Transmitting', href:'module02.html' },
+  { id:'03', label:'Information &\nCommunication',    sub:'Signal / noise / transmission / networks',     color:0x00ffb3, hx:'00ffb3', x:-4.0, z: 4.0, n: 7, status:'Active',       href:'module03.html' },
+  { id:'04', label:'Reality',                         sub:'Simulation / perception / constructed worlds', color:0x00b4ff, hx:'00b4ff', x: 4.0, z: 4.0, n: 7, status:'Standby',      href:'module04.html' },
+  { id:'05', label:'Nature / Ecology\n/ Environment', sub:'Sustainability / more-than-human futures',     color:0xb4ff00, hx:'b4ff00', x:-7.0, z: 0,   n: 7, status:'Standby',      href:'module05.html' },
+  { id:'06', label:'Self-Proposed',                   sub:'Open vector / artist-defined inquiry',         color:0xff2d78, hx:'ff2d78', x: 7.0, z: 0,   n: 6, status:'Standby',      href:'module06.html' },
+];
+
+// ── RENDERER ─────────────────────────────────────────────
+const C = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas:C, antialias:true });
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x03040a);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x03040a, 0.048);
+
+const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 80);
+// Fixed camera — same position as the original street view
+camera.position.set(0, 10, 14);
+camera.lookAt(0, 0, 0);
+
+function resize() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ── LIGHTS ────────────────────────────────────────────────
+const sun = new THREE.DirectionalLight(0xc8b0ff, 1.1);
+sun.position.set(6, 14, 8);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+sun.shadow.camera.left=-22; sun.shadow.camera.right=22;
+sun.shadow.camera.top=22;   sun.shadow.camera.bottom=-22;
+sun.shadow.camera.far=60;
+scene.add(sun);
+scene.add(new THREE.AmbientLight(0x2a1a4a, 1.2));
+const rim = new THREE.DirectionalLight(0x7b2fff, 0.5); rim.position.set(-8, 3, -5); scene.add(rim);
+const pink = new THREE.DirectionalLight(0xff2d78, 0.25); pink.position.set(10, 2, 10); scene.add(pink);
+
+// ── STARS ────────────────────────────────────────────────
+const starGeo = new THREE.BufferGeometry();
+const starPos = new Float32Array(300 * 3);
+for (let i = 0; i < 300 * 3; i++) starPos[i] = (Math.random() - .5) * (i % 3 === 1 ? 30 : 60);
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+const particles = new THREE.Points(starGeo, new THREE.PointsMaterial({ color:0xc8c4ff, size:0.08, transparent:true, opacity:.7 }));
+scene.add(particles);
+
+// No ground plane — pure void
+
+// ── ORBIT RINGS ───────────────────────────────────────────
+const ring = new THREE.Mesh(
+  new THREE.RingGeometry(5.5, 5.65, 32),
+  new THREE.MeshLambertMaterial({ color:0x7b2fff, opacity:.12, transparent:true, side:THREE.DoubleSide })
+);
+ring.position.set(0, 0.05, -6); ring.rotation.x = -Math.PI/2; scene.add(ring);
+
+const ring2 = new THREE.Mesh(
+  new THREE.RingGeometry(8.5, 8.65, 32),
+  new THREE.MeshLambertMaterial({ color:0xff2d78, opacity:.06, transparent:true, side:THREE.DoubleSide })
+);
+ring2.position.set(0, 0.04, -4); ring2.rotation.x = -Math.PI/2; scene.add(ring2);
+
+// ── MODULE TILES (rectangular boxes) ─────────────────────
+const BOX_W = 3.4, BOX_D = 3.4;
+const tileMeshes = [];
+
+MODULES.forEach((m) => {
+  const g = new THREE.Group();
+  g.position.set(m.x, 0, m.z);
+  g.userData = m;
+
+  const tileH = 0.5 + (m.n / 22) * 0.45;
+  const col = new THREE.Color(m.color);
+  const topMat = new THREE.MeshLambertMaterial({ color: m.color });
+
+  // Dark body
+  const base = new THREE.Mesh(
+    new THREE.BoxGeometry(BOX_W, tileH + 0.05, BOX_D),
+    new THREE.MeshLambertMaterial({ color: 0x080614 })
+  );
+  base.position.y = (tileH + 0.05) / 2 - 0.04;
+  base.castShadow = true; base.receiveShadow = true;
+  g.add(base);
+
+  // Top colour cap
+  const top = new THREE.Mesh(new THREE.BoxGeometry(BOX_W, 0.07, BOX_D), topMat);
+  top.position.y = tileH + 0.01; g.add(top);
+
+  // Front glow strip
+  const strip = new THREE.Mesh(
+    new THREE.BoxGeometry(BOX_W, 0.05, 0.06),
+    new THREE.MeshLambertMaterial({ color: col.clone().lerp(new THREE.Color(0xffffff), 0.4) })
+  );
+  strip.position.set(0, tileH + 0.04, BOX_D/2 + 0.01); g.add(strip);
+
+  // Side glow edges
+  const edgeMat = new THREE.MeshLambertMaterial({ color: m.color, opacity:.6, transparent:true });
+  const ef = new THREE.Mesh(new THREE.BoxGeometry(BOX_W, tileH, 0.04), edgeMat);
+  ef.position.set(0, tileH/2, BOX_D/2); g.add(ef);
+  const el = new THREE.Mesh(new THREE.BoxGeometry(0.04, tileH, BOX_D), edgeMat);
+  el.position.set(-BOX_W/2, tileH/2, 0); g.add(el);
+
+  // Artifact dots on top
+  const dotMat    = new THREE.MeshLambertMaterial({ color:m.color, opacity:.5, transparent:true });
+  const dimDotMat = new THREE.MeshLambertMaterial({ color:0x2a2040, opacity:.4, transparent:true });
+  const cols = Math.ceil(Math.sqrt(m.n + 2));
+  for (let d = 0; d < m.n; d++) {
+    const dc = d % cols, dr = Math.floor(d / cols);
+    const dot = new THREE.Mesh(
+      new THREE.BoxGeometry(0.14, 0.1, 0.14),
+      Math.random() > .55 ? dotMat : dimDotMat
+    );
+    dot.position.set(-1 + dc * 0.42, tileH + 0.1, -0.9 + dr * 0.42);
+    dot.rotation.y = Math.PI/4;
+    g.add(dot);
+  }
+
+  // MOD ID tag panel on front face
+  const tagMat = new THREE.MeshLambertMaterial({ color:0x0d0b1e });
+  const tag = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.38, 0.1), tagMat);
+  tag.position.set(-0.9, tileH + 0.52, BOX_D/2); tag.rotation.x = -0.1; g.add(tag);
+  const tagLine = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.05, 0.11), topMat.clone());
+  tagLine.position.set(-0.9, tileH + 0.7, BOX_D/2); g.add(tagLine);
+
+  // Count box
+  const cnt = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.32, 0.1), tagMat.clone());
+  cnt.position.set(0.9, tileH + 0.48, BOX_D/2); cnt.rotation.x = -0.1; g.add(cnt);
+
+  // Small nearby monolith pillars
+  [{ox:-2, oz:2.2},{ox:2.1, oz:-2}].forEach(({ox, oz}) => {
+    const pH = 0.6 + Math.random() * 0.8;
+    const pillar = new THREE.Mesh(
+      new THREE.BoxGeometry(0.22, pH, 0.22),
+      new THREE.MeshLambertMaterial({ color:0x0d0b1e })
+    );
+    pillar.position.set(m.x + ox, pH/2, m.z + oz);
+    pillar.castShadow = true; scene.add(pillar);
+    const ptop = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.05, 0.22), topMat.clone());
+    ptop.position.set(m.x + ox, pH + 0.02, m.z + oz); scene.add(ptop);
+  });
+
+  tileMeshes.push(g);
+  scene.add(g);
+});
+
+// ── GLOWING ORB ───────────────────────────────────────────
+const orbGroup = new THREE.Group();
+orbGroup.position.set(0, 0.7, 0);
+scene.add(orbGroup);
+
+// Bright white-hot inner core
+const orbCore = new THREE.Mesh(
+  new THREE.SphereGeometry(0.3, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0xffffff, transparent:true, opacity:1.0 })
+);
+orbGroup.add(orbCore);
+
+// Inner colour shell
+const orbInner = new THREE.Mesh(
+  new THREE.SphereGeometry(0.5, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0xaa66ff, transparent:true, opacity:0.85, side:THREE.BackSide })
+);
+orbGroup.add(orbInner);
+
+// Mid shells
+const orbMid = new THREE.Mesh(
+  new THREE.SphereGeometry(0.75, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0x7b2fff, transparent:true, opacity:0.4, side:THREE.BackSide })
+);
+orbGroup.add(orbMid);
+
+const orbMid2 = new THREE.Mesh(
+  new THREE.SphereGeometry(1.05, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0x6622ee, transparent:true, opacity:0.22, side:THREE.BackSide })
+);
+orbGroup.add(orbMid2);
+
+// Outer halos
+const orbOuter = new THREE.Mesh(
+  new THREE.SphereGeometry(1.5, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0x5511cc, transparent:true, opacity:0.12, side:THREE.BackSide })
+);
+orbGroup.add(orbOuter);
+
+const orbOuter2 = new THREE.Mesh(
+  new THREE.SphereGeometry(2.2, 32, 32),
+  new THREE.MeshLambertMaterial({ color:0x7b2fff, transparent:true, opacity:0.05, side:THREE.BackSide })
+);
+orbGroup.add(orbOuter2);
+
+// Canvas glow sprite — soft radial gradient billboard
+const glowCanvas = document.createElement('canvas');
+glowCanvas.width = 256; glowCanvas.height = 256;
+const glowCtx = glowCanvas.getContext('2d');
+const grad = glowCtx.createRadialGradient(128,128,0, 128,128,128);
+grad.addColorStop(0,   'rgba(210,160,255,0.95)');
+grad.addColorStop(0.12,'rgba(150,60,255,0.8)');
+grad.addColorStop(0.35,'rgba(100,20,220,0.4)');
+grad.addColorStop(0.65,'rgba(70,0,180,0.12)');
+grad.addColorStop(1,   'rgba(50,0,140,0)');
+glowCtx.fillStyle = grad;
+glowCtx.fillRect(0,0,256,256);
+const glowTex = new THREE.CanvasTexture(glowCanvas);
+const glowSprite = new THREE.Mesh(
+  new THREE.PlaneGeometry(6, 6),
+  new THREE.MeshBasicMaterial({ map:glowTex, transparent:true, opacity:0.85, depthWrite:false, side:THREE.DoubleSide })
+);
+glowSprite.userData.isBillboard = true;
+orbGroup.add(glowSprite);
+
+// Second larger bloom sprite
+const glowCanvas2 = document.createElement('canvas');
+glowCanvas2.width = 256; glowCanvas2.height = 256;
+const glowCtx2 = glowCanvas2.getContext('2d');
+const grad2 = glowCtx2.createRadialGradient(128,128,0, 128,128,128);
+grad2.addColorStop(0,   'rgba(160,80,255,0.55)');
+grad2.addColorStop(0.25,'rgba(100,20,255,0.22)');
+grad2.addColorStop(0.6, 'rgba(60,0,180,0.07)');
+grad2.addColorStop(1,   'rgba(40,0,120,0)');
+glowCtx2.fillStyle = grad2;
+glowCtx2.fillRect(0,0,256,256);
+const glowTex2 = new THREE.CanvasTexture(glowCanvas2);
+const glowSprite2 = new THREE.Mesh(
+  new THREE.PlaneGeometry(12, 12),
+  new THREE.MeshBasicMaterial({ map:glowTex2, transparent:true, opacity:0.65, depthWrite:false, side:THREE.DoubleSide })
+);
+glowSprite2.userData.isBillboard = true;
+orbGroup.add(glowSprite2);
+
+// Spinning rings
+[
+  { r:1.6,  tilt:0.4,  speed: 0.85, col:0x9944ff, op:0.7  },
+  { r:2.0,  tilt:1.1,  speed:-0.55, col:0xff2d78, op:0.45 },
+  { r:2.45, tilt:0.75, speed: 0.38, col:0x00ffb3, op:0.3  },
+  { r:1.82, tilt:1.6,  speed:-0.28, col:0xc8c4ff, op:0.2  },
+].forEach(({r, tilt, speed, col, op}) => {
+  const ringMesh = new THREE.Mesh(
+    new THREE.TorusGeometry(r, 0.032, 8, 64),
+    new THREE.MeshLambertMaterial({ color:col, transparent:true, opacity:op })
+  );
+  ringMesh.rotation.x = tilt;
+  ringMesh.userData.speed = speed;
+  orbGroup.add(ringMesh);
+});
+
+// Orbiting gem dots
+for (let i = 0; i < 8; i++) {
+  const dot = new THREE.Mesh(
+    new THREE.BoxGeometry(0.11, 0.11, 0.11),
+    new THREE.MeshLambertMaterial({ color: i%2===0 ? 0xc8c4ff : 0xaa66ff, transparent:true, opacity:0.85 })
+  );
+  dot.rotation.z = Math.PI/4;
+  dot.userData.orbAngle = (i/8) * Math.PI * 2;
+  dot.userData.orbR     = 1.55 + Math.random() * 0.8;
+  dot.userData.orbSpeed = 0.38 + Math.random() * 0.42;
+  dot.userData.orbTilt  = (Math.random() - 0.5) * 1.8;
+  orbGroup.add(dot);
+}
+
+// Strong point lights
+const orbLight = new THREE.PointLight(0x9944ff, 3.5, 24);
+scene.add(orbLight);
+const orbLight2 = new THREE.PointLight(0xff2d78, 1.2, 14);
+scene.add(orbLight2);
+
+
+// ── HTML LABEL OVERLAYS ───────────────────────────────────
+function hexRgb(h) {
+  return `${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)}`;
+}
+function buildDots(n, hx) {
+  let s = '<div class="adots">';
+  for (let i = 0; i < n; i++)
+    s += `<div class="adot${Math.random()>.5?'':' dim'}" style="background:#${hx}"></div>`;
+  return s + '</div>';
+}
+
+function updateLabels() {
+  const W = window.innerWidth, H = window.innerHeight;
+  const container = document.getElementById('labels');
+
+  tileMeshes.forEach((g) => {
+    const m = g.userData;
+    let el = document.getElementById('lbl-' + m.id);
+
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'lbl-' + m.id;
+      el.className = 'mod-overlay';
+      const lines = m.label.split('\n');
+      el.innerHTML = `
+        <div class="mod-tag" style="color:#${m.hx}">MOD·${m.id} · ${m.status}</div>
+        <div class="mod-title-text">${lines[0]}${lines[1] ? '<br>'+lines[1] : ''}</div>
+        <div class="mod-sub-text">${m.sub}</div>
+        ${buildDots(m.n, m.hx)}
+        <div class="mod-count" style="color:#${m.hx}">${String(m.n).padStart(2,'0')}</div>
+        <a class="mod-enter-btn" href="${m.href}"
+           style="border-color:rgba(${hexRgb(m.hx)},.35)"
+           onmouseover="this.style.borderColor='#${m.hx}';this.style.color='#${m.hx}'"
+           onmouseout="this.style.borderColor='rgba(${hexRgb(m.hx)},.35)';this.style.color='rgba(200,196,255,.25)'">
+          Enter →
+        </a>`;
+      container.appendChild(el);
+    }
+
+    // Project box centre to screen
+    const wp = new THREE.Vector3();
+    g.getWorldPosition(wp);
+    const proj = wp.clone().project(camera);
+    if (proj.z > 1) { el.style.opacity='0'; el.style.pointerEvents='none'; return; }
+
+    const sx = (proj.x * .5 + .5) * W;
+    const sy = (-.5 * proj.y + .5) * H;
+    el.style.left = sx + 'px';
+    el.style.top  = sy + 'px';
+    el.style.opacity = '1';
+    el.style.pointerEvents = 'none'; // only the <a> inside has pointer-events
+
+    const dist = camera.position.distanceTo(wp);
+    const sc = Math.max(.5, Math.min(1.1, 14 / dist));
+    el.style.transform = `translate(-50%,-50%) scale(${sc})`;
+  });
+}
+
+// ── ANIMATION ─────────────────────────────────────────────
+let t = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  t += .016;
+
+  // Tile gentle bob
+  tileMeshes.forEach((g, i) => {
+    g.position.y = Math.sin(t * 1.3 + i * 1.3) * .035;
+  });
+
+  // Rings rotate
+  ring.rotation.z  += .004;
+  ring2.rotation.z -= .002;
+
+  // Stars drift
+  particles.rotation.y += .0003;
+
+  // Orb breathe — all shells pulse
+  orbCore.material.opacity  = 0.92 + Math.sin(t * 1.6) * .08;
+  orbMid.material.opacity   = 0.36 + Math.sin(t * 1.2) * .08;
+  orbMid2.material.opacity  = 0.18 + Math.sin(t * 0.9) * .05;
+  orbOuter.material.opacity = 0.10 + Math.sin(t * 0.7) * .03;
+  orbOuter2.material.opacity= 0.04 + Math.sin(t * 0.5) * .02;
+
+  // Orb rings spin
+  orbGroup.children.forEach(child => {
+    if (child.userData.speed !== undefined) child.rotation.y += child.userData.speed * .016;
+    // Billboard sprites always face camera
+    if (child.userData.isBillboard) child.lookAt(camera.position);
+  });
+
+  // Orbiting dots
+  orbGroup.children.forEach(child => {
+    if (child.userData.orbAngle !== undefined) {
+      child.userData.orbAngle += child.userData.orbSpeed * .016;
+      const a = child.userData.orbAngle;
+      const r = child.userData.orbR;
+      child.position.set(
+        Math.cos(a) * r,
+        Math.sin(a * 0.7 + child.userData.orbTilt) * r * 0.35,
+        Math.sin(a) * r
+      );
+      child.rotation.y += .05;
     }
   });
+
+  // Orb drifts slowly in place
+  orbGroup.position.x = Math.sin(t * .22) * 0.6;
+  orbGroup.position.y = 0.7 + Math.cos(t * .18) * 0.25;
+  orbLight.position.copy(orbGroup.position);
+  orbLight.intensity  = 3.0 + Math.sin(t * 1.4) * 0.8;
+  orbLight2.position.set(orbGroup.position.x, orbGroup.position.y - 0.3, orbGroup.position.z);
+  orbLight2.intensity = 1.0 + Math.sin(t * 1.1 + 1.2) * 0.4;
+
+  renderer.render(scene, camera);
+  updateLabels();
+}
+animate();
 </script>
 </body>
 </html>
