@@ -19,7 +19,7 @@
   .logo-gem { width:9px; height:9px; background:var(--bloom); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); box-shadow:0 0 9px var(--bloom); flex-shrink:0; }
   .header-right { display:flex; align-items:center; gap:1rem; }
   .header-meta { font-family:'Courier Prime',monospace; font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(200,196,255,.22); }
-  .nav-btn { font-family:'Courier Prime',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--star); background:transparent; border:1px solid rgba(123,47,255,.35); padding:.35rem .85rem; text-decoration:none; transition:all .2s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
+  .nav-btn { font-family:'Courier Prime',monospace; font-size:.5rem; letter-spacing:.2em; text-transform:uppercase; color:var(--star); background:transparent; border:1px solid rgba(123,47,255,.35); padding:.35rem .85rem; text-decoration:none; transition:all .2s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); cursor:pointer; }
   .nav-btn:hover { background:rgba(123,47,255,.18); border-color:var(--bloom); color:#fff; }
 
   /* CORNERS */
@@ -69,6 +69,20 @@
     50%    {opacity:.6;  box-shadow:0 0 3px  currentColor;}
   }
   @keyframes blink-slow{0%,100%{opacity:.7}50%{opacity:.15}}
+
+  /* AI DISCLAIMER */
+  #ai-disclaimer { display:none; position:fixed; inset:0; z-index:999; background:rgba(3,4,10,.88); backdrop-filter:blur(12px); align-items:center; justify-content:center; }
+  #ai-disclaimer.open { display:flex; }
+  .disc-box { background:var(--panel); border:1px solid rgba(123,47,255,.28); max-width:560px; width:90%; padding:2rem 2.2rem; position:relative; max-height:85vh; overflow-y:auto; }
+  .disc-corner { position:absolute; pointer-events:none; opacity:.5; }
+  .dc-tl{top:-1px;left:-1px} .dc-tr{top:-1px;right:-1px}
+  .disc-header { font-family:'Courier Prime',monospace; font-size:.44rem; letter-spacing:.28em; text-transform:uppercase; color:rgba(200,196,255,.28); margin-bottom:.5rem; display:flex; align-items:center; gap:.4rem; }
+  .disc-gem { width:6px; height:6px; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); background:var(--bloom); box-shadow:0 0 7px var(--bloom); flex-shrink:0; }
+  .disc-title { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.05rem; letter-spacing:.06em; text-transform:uppercase; color:#c8c4ff; border-bottom:1px solid rgba(123,47,255,.18); padding-bottom:.7rem; margin-bottom:1.2rem; }
+  .disc-body { font-family:'EB Garamond',serif; font-size:.84rem; line-height:1.8; color:rgba(200,196,255,.72); }
+  .disc-body p + p { margin-top:.85rem; }
+  .disc-close { margin-top:1.5rem; font-family:'Courier Prime',monospace; font-size:.44rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(200,196,255,.4); background:transparent; border:1px solid rgba(123,47,255,.25); padding:.35rem .9rem; cursor:pointer; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition:all .2s; }
+  .disc-close:hover { color:var(--star); border-color:var(--bloom); background:rgba(123,47,255,.12); }
 </style>
 </head>
 <body>
@@ -81,6 +95,7 @@
       <span class="header-meta">ART104 · Spring 2026 · 56 Artifacts</span>
       <a href="space.html" class="nav-btn">◈ Space World</a>
       <a href="splash.html" class="nav-btn">← Splash</a>
+      <button onclick="document.getElementById('ai-disclaimer').classList.add('open')" class="nav-btn">⚠ A Note on AI</button>
     </div>
   </header>
 
@@ -103,6 +118,28 @@
   <div id="labels"></div>
 </div>
 
+<!-- AI DISCLAIMER PANEL -->
+<div id="ai-disclaimer">
+  <div class="disc-box">
+    <svg class="disc-corner dc-tl" width="18" height="18" viewBox="0 0 18 18"><path d="M0 18L0 0L18 0" stroke="rgba(123,47,255,.7)" fill="none" stroke-width="1"/></svg>
+    <svg class="disc-corner dc-tr" width="18" height="18" viewBox="0 0 18 18"><path d="M18 18L18 0L0 0" stroke="rgba(123,47,255,.7)" fill="none" stroke-width="1"/></svg>
+    <div class="disc-header"><div class="disc-gem"></div>Speculation Capsule · ART104 · Spring 2026</div>
+    <div class="disc-title">A Note on AI (Automation)</div>
+    <div class="disc-body">
+      <p>Sarah used AI (automation) to help construct the HTML to set up this website by prompting it with details about the idea, the features, the parts, and the framework. Sarah believes that many things should not be automated using AI and that users should be cautious about the inaccuracies and bias in the system, exploitation of workers, the environmental impact, and the unethical use of the work of people without compensation, consent, or attribution.</p>
+      <p>Another issue that might negatively impact humans is the process by which it is forced into our lives and technology and work and thus could result in our becoming reliant on it, without the ability to back out. Once everyone must use it, it forces the speed and style and aesthetics into the system, which requires everyone to utilize it to stay relevant and up to speed. This is a concern, especially because the design, deployment, and use is in the power of a few individuals (without guardrails or oversight). Sarah worries about this reliance on the technology when those in power make the cost to use it high and this creates an equity issue.</p>
+      <p>While Sarah still struggles with the issues related to how AI (automation) could impact humans and the world, Sarah is experimenting with using it to support education and equity in instances where it could support students and learning. The use of it in this case is debatable, because I used it to help me generate the code for the website that I envisioned. Even though it is close to what I had in my mind, it is very highly possible that merely using it created the images in my mind. This process might result in more and more technology looking more dull and the same. Perhaps this website will end up being a relic of this strange time, a speculative capsule stuck in a weird, slopification automation void.</p>
+    </div>
+    <button class="disc-close" onclick="document.getElementById('ai-disclaimer').classList.remove('open')">✕ Close</button>
+  </div>
+</div>
+
+<script>
+document.getElementById('ai-disclaimer').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+</script>
+
 <script>
 const MODULES = [
   { id:'01', label:'Computer History\n& Technology',  sub:'Machines / memory / infrastructure',           color:0x7b2fff, hx:'7b2fff', x:-4.0, z:-4.0, n:22, status:'Active',       href:'module01.html' },
@@ -113,7 +150,6 @@ const MODULES = [
   { id:'06', label:'Self-Proposed',                   sub:'Open vector / artist-defined inquiry',         color:0xff2d78, hx:'ff2d78', x: 7.0, z: 0,   n: 6, status:'Standby',      href:'module06.html' },
 ];
 
-// ── RENDERER ─────────────────────────────────────────────
 const C = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas:C, antialias:true });
 renderer.shadowMap.enabled = true;
@@ -125,7 +161,6 @@ const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x03040a, 0.048);
 
 const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 80);
-// Fixed camera — same position as the original street view
 camera.position.set(0, 10, 14);
 camera.lookAt(0, 0, 0);
 
@@ -137,7 +172,6 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-// ── LIGHTS ────────────────────────────────────────────────
 const sun = new THREE.DirectionalLight(0xc8b0ff, 1.1);
 sun.position.set(6, 14, 8);
 sun.castShadow = true;
@@ -150,7 +184,6 @@ scene.add(new THREE.AmbientLight(0x2a1a4a, 1.2));
 const rim = new THREE.DirectionalLight(0x7b2fff, 0.5); rim.position.set(-8, 3, -5); scene.add(rim);
 const pink = new THREE.DirectionalLight(0xff2d78, 0.25); pink.position.set(10, 2, 10); scene.add(pink);
 
-// ── STARS ────────────────────────────────────────────────
 const starGeo = new THREE.BufferGeometry();
 const starPos = new Float32Array(300 * 3);
 for (let i = 0; i < 300 * 3; i++) starPos[i] = (Math.random() - .5) * (i % 3 === 1 ? 30 : 60);
@@ -158,9 +191,6 @@ starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
 const particles = new THREE.Points(starGeo, new THREE.PointsMaterial({ color:0xc8c4ff, size:0.08, transparent:true, opacity:.7 }));
 scene.add(particles);
 
-// No ground plane — pure void
-
-// ── ORBIT RINGS ───────────────────────────────────────────
 const ring = new THREE.Mesh(
   new THREE.RingGeometry(5.5, 5.65, 32),
   new THREE.MeshLambertMaterial({ color:0x7b2fff, opacity:.12, transparent:true, side:THREE.DoubleSide })
@@ -173,7 +203,6 @@ const ring2 = new THREE.Mesh(
 );
 ring2.position.set(0, 0.04, -4); ring2.rotation.x = -Math.PI/2; scene.add(ring2);
 
-// ── MODULE TILES (rectangular boxes) ─────────────────────
 const BOX_W = 3.4, BOX_D = 3.4;
 const tileMeshes = [];
 
@@ -186,7 +215,6 @@ MODULES.forEach((m) => {
   const col = new THREE.Color(m.color);
   const topMat = new THREE.MeshLambertMaterial({ color: m.color });
 
-  // Dark body
   const base = new THREE.Mesh(
     new THREE.BoxGeometry(BOX_W, tileH + 0.05, BOX_D),
     new THREE.MeshLambertMaterial({ color: 0x080614 })
@@ -195,25 +223,21 @@ MODULES.forEach((m) => {
   base.castShadow = true; base.receiveShadow = true;
   g.add(base);
 
-  // Top colour cap
   const top = new THREE.Mesh(new THREE.BoxGeometry(BOX_W, 0.07, BOX_D), topMat);
   top.position.y = tileH + 0.01; g.add(top);
 
-  // Front glow strip
   const strip = new THREE.Mesh(
     new THREE.BoxGeometry(BOX_W, 0.05, 0.06),
     new THREE.MeshLambertMaterial({ color: col.clone().lerp(new THREE.Color(0xffffff), 0.4) })
   );
   strip.position.set(0, tileH + 0.04, BOX_D/2 + 0.01); g.add(strip);
 
-  // Side glow edges
   const edgeMat = new THREE.MeshLambertMaterial({ color: m.color, opacity:.6, transparent:true });
   const ef = new THREE.Mesh(new THREE.BoxGeometry(BOX_W, tileH, 0.04), edgeMat);
   ef.position.set(0, tileH/2, BOX_D/2); g.add(ef);
   const el = new THREE.Mesh(new THREE.BoxGeometry(0.04, tileH, BOX_D), edgeMat);
   el.position.set(-BOX_W/2, tileH/2, 0); g.add(el);
 
-  // Artifact dots on top
   const dotMat    = new THREE.MeshLambertMaterial({ color:m.color, opacity:.5, transparent:true });
   const dimDotMat = new THREE.MeshLambertMaterial({ color:0x2a2040, opacity:.4, transparent:true });
   const cols = Math.ceil(Math.sqrt(m.n + 2));
@@ -228,18 +252,15 @@ MODULES.forEach((m) => {
     g.add(dot);
   }
 
-  // MOD ID tag panel on front face
   const tagMat = new THREE.MeshLambertMaterial({ color:0x0d0b1e });
   const tag = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.38, 0.1), tagMat);
   tag.position.set(-0.9, tileH + 0.52, BOX_D/2); tag.rotation.x = -0.1; g.add(tag);
   const tagLine = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.05, 0.11), topMat.clone());
   tagLine.position.set(-0.9, tileH + 0.7, BOX_D/2); g.add(tagLine);
 
-  // Count box
   const cnt = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.32, 0.1), tagMat.clone());
   cnt.position.set(0.9, tileH + 0.48, BOX_D/2); cnt.rotation.x = -0.1; g.add(cnt);
 
-  // Small nearby monolith pillars
   [{ox:-2, oz:2.2},{ox:2.1, oz:-2}].forEach(({ox, oz}) => {
     const pH = 0.6 + Math.random() * 0.8;
     const pillar = new THREE.Mesh(
@@ -256,26 +277,22 @@ MODULES.forEach((m) => {
   scene.add(g);
 });
 
-// ── GLOWING ORB ───────────────────────────────────────────
 const orbGroup = new THREE.Group();
 orbGroup.position.set(0, 0.7, 0);
 scene.add(orbGroup);
 
-// Bright white-hot inner core
 const orbCore = new THREE.Mesh(
   new THREE.SphereGeometry(0.3, 32, 32),
   new THREE.MeshLambertMaterial({ color:0xffffff, transparent:true, opacity:1.0 })
 );
 orbGroup.add(orbCore);
 
-// Inner colour shell
 const orbInner = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 32, 32),
   new THREE.MeshLambertMaterial({ color:0xaa66ff, transparent:true, opacity:0.85, side:THREE.BackSide })
 );
 orbGroup.add(orbInner);
 
-// Mid shells
 const orbMid = new THREE.Mesh(
   new THREE.SphereGeometry(0.75, 32, 32),
   new THREE.MeshLambertMaterial({ color:0x7b2fff, transparent:true, opacity:0.4, side:THREE.BackSide })
@@ -288,7 +305,6 @@ const orbMid2 = new THREE.Mesh(
 );
 orbGroup.add(orbMid2);
 
-// Outer halos
 const orbOuter = new THREE.Mesh(
   new THREE.SphereGeometry(1.5, 32, 32),
   new THREE.MeshLambertMaterial({ color:0x5511cc, transparent:true, opacity:0.12, side:THREE.BackSide })
@@ -301,7 +317,6 @@ const orbOuter2 = new THREE.Mesh(
 );
 orbGroup.add(orbOuter2);
 
-// Canvas glow sprite — soft radial gradient billboard
 const glowCanvas = document.createElement('canvas');
 glowCanvas.width = 256; glowCanvas.height = 256;
 const glowCtx = glowCanvas.getContext('2d');
@@ -321,7 +336,6 @@ const glowSprite = new THREE.Mesh(
 glowSprite.userData.isBillboard = true;
 orbGroup.add(glowSprite);
 
-// Second larger bloom sprite
 const glowCanvas2 = document.createElement('canvas');
 glowCanvas2.width = 256; glowCanvas2.height = 256;
 const glowCtx2 = glowCanvas2.getContext('2d');
@@ -340,7 +354,6 @@ const glowSprite2 = new THREE.Mesh(
 glowSprite2.userData.isBillboard = true;
 orbGroup.add(glowSprite2);
 
-// Spinning rings
 [
   { r:1.6,  tilt:0.4,  speed: 0.85, col:0x9944ff, op:0.7  },
   { r:2.0,  tilt:1.1,  speed:-0.55, col:0xff2d78, op:0.45 },
@@ -356,7 +369,6 @@ orbGroup.add(glowSprite2);
   orbGroup.add(ringMesh);
 });
 
-// Orbiting gem dots
 for (let i = 0; i < 8; i++) {
   const dot = new THREE.Mesh(
     new THREE.BoxGeometry(0.11, 0.11, 0.11),
@@ -370,14 +382,11 @@ for (let i = 0; i < 8; i++) {
   orbGroup.add(dot);
 }
 
-// Strong point lights
 const orbLight = new THREE.PointLight(0x9944ff, 3.5, 24);
 scene.add(orbLight);
 const orbLight2 = new THREE.PointLight(0xff2d78, 1.2, 14);
 scene.add(orbLight2);
 
-
-// ── HTML LABEL OVERLAYS ───────────────────────────────────
 function hexRgb(h) {
   return `${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)}`;
 }
@@ -414,7 +423,6 @@ function updateLabels() {
       container.appendChild(el);
     }
 
-    // Project box centre to screen
     const wp = new THREE.Vector3();
     g.getWorldPosition(wp);
     const proj = wp.clone().project(camera);
@@ -425,7 +433,7 @@ function updateLabels() {
     el.style.left = sx + 'px';
     el.style.top  = sy + 'px';
     el.style.opacity = '1';
-    el.style.pointerEvents = 'none'; // only the <a> inside has pointer-events
+    el.style.pointerEvents = 'none';
 
     const dist = camera.position.distanceTo(wp);
     const sc = Math.max(.5, Math.min(1.1, 14 / dist));
@@ -433,39 +441,31 @@ function updateLabels() {
   });
 }
 
-// ── ANIMATION ─────────────────────────────────────────────
 let t = 0;
 function animate() {
   requestAnimationFrame(animate);
   t += .016;
 
-  // Tile gentle bob
   tileMeshes.forEach((g, i) => {
     g.position.y = Math.sin(t * 1.3 + i * 1.3) * .035;
   });
 
-  // Rings rotate
   ring.rotation.z  += .004;
   ring2.rotation.z -= .002;
 
-  // Stars drift
   particles.rotation.y += .0003;
 
-  // Orb breathe — all shells pulse
   orbCore.material.opacity  = 0.92 + Math.sin(t * 1.6) * .08;
   orbMid.material.opacity   = 0.36 + Math.sin(t * 1.2) * .08;
   orbMid2.material.opacity  = 0.18 + Math.sin(t * 0.9) * .05;
   orbOuter.material.opacity = 0.10 + Math.sin(t * 0.7) * .03;
   orbOuter2.material.opacity= 0.04 + Math.sin(t * 0.5) * .02;
 
-  // Orb rings spin
   orbGroup.children.forEach(child => {
     if (child.userData.speed !== undefined) child.rotation.y += child.userData.speed * .016;
-    // Billboard sprites always face camera
     if (child.userData.isBillboard) child.lookAt(camera.position);
   });
 
-  // Orbiting dots
   orbGroup.children.forEach(child => {
     if (child.userData.orbAngle !== undefined) {
       child.userData.orbAngle += child.userData.orbSpeed * .016;
@@ -480,7 +480,6 @@ function animate() {
     }
   });
 
-  // Orb drifts slowly in place
   orbGroup.position.x = Math.sin(t * .22) * 0.6;
   orbGroup.position.y = 0.7 + Math.cos(t * .18) * 0.25;
   orbLight.position.copy(orbGroup.position);
