@@ -64,10 +64,6 @@
   .modal-body { padding: 1.5rem 1.25rem; }
   .modal-body p { font-family: 'EB Garamond', serif; font-size: 0.95rem; line-height: 1.88; color: rgba(200,196,255,0.62); margin-bottom: 1rem; }
   .modal-body p:last-of-type { margin-bottom: 0; }
-  .modal-footnotes { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
-  .footnote-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .modal-footnotes a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; margin-bottom: 0.3rem; opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem; }
-  .modal-footnotes a:hover { opacity: 1; }
   footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid rgba(var(--cr),0.08); font-family: 'Courier Prime', monospace; font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,196,255,0.12); }
 </style>
 </head>
@@ -123,13 +119,48 @@
 
 <script>
 const moduleData = {
-  "1": { img:"info1.png", title:"", p1:"Info1 — add student reflection here.", p2:"Info1 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "2": { img:"info2.png", title:"", p1:"Info2 — add student reflection here.", p2:"Info2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "3": { img:"info3.png", title:"", p1:"Info3 — add student reflection here.", p2:"Info3 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4": { img:"info4.png", title:"", p1:"Info4 — add student reflection here.", p2:"Info4 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5": { img:"info5.png", title:"", p1:"Info5 — add student reflection here.", p2:"Info5 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6": { img:"info6.png", title:"", p1:"Info6 — add student reflection here.", p2:"Info6 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "7": { img:"info7.png", title:"", p1:"Info7 — add student reflection here.", p2:"Info7 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1": {
+    img: "info1.png",
+    title: "Tai, Miah, Ethan",
+    p1: "Our project app concept is called Attention Tracker. The idea is that the app tracks how much time a person spends on their phone and shows where their attention is going throughout the week. It reflects the theme of information and communication because smartphones constantly collect information and communicate data about how we spend our time on them. In the attention economy, companies compete to capture and keep our attention through notifications, social media feeds, and algorithms."
+  },
+  "2": {
+    img: "info2.png",
+    title: "Gab, Phin, Emis",
+    p1: "In REC, we use digital collage and compositing techniques that combine photography, illustration, and graphic elements, created in Procreate. By layering scanned textures, silhouettes, and photographic material, we construct a dense visual environment where natural imagery merges with technological symbolism. Digital color manipulation and transparency help create an atmospheric space, while red dots appear throughout the composition as visual data points that suggest recording systems, surveillance signals, or networked tracking embedded within the landscape.",
+    p2: "Through this work, we explore themes of surveillance capitalism, constant monitoring, and the transformation of human identity into data within digital systems. The limited color palette of black, gray, red, and cyan emphasizes contrast and evokes digital interfaces and recording indicators. Organic forms like tree branches and roots mirror the structure of technological networks, while simplified human silhouettes suggest anonymity in data-driven environments.",
+    p3: "By combining natural imagery with digital symbolism through a layered collage aesthetic, we reflect on how hidden infrastructures of data collection shape perception, visibility, and identity in contemporary networked society."
+  },
+  "3": {
+    img: "info3.png",
+    title: "David P., Rosalva, Minh",
+    p1: "Screens started looking back at us, turning our private lives into trackable, operational data."
+  },
+  "4": {
+    img: "info4.png",
+    title: "Christian, Chloe, Samantha",
+    p1: "Our speculative artwork is the Ocular V.3 system — an implanted eye prosthetic that feeds you advertisements for products you look at in real time.",
+    p2: "The system must replace a working eye in order to function, as it still requires the eye's functioning nerves at the moment of removal. In this world, it was designed to constantly sell products to you by using data taken from what you're seeing.",
+    p3: "Pros: better vision than everyone, the ability to get the best deal in an instant, and seeing the world from a new perspective. Cons: complete loss of privacy, all everyday activities recorded, and the requirement to replace an original eye."
+  },
+  "5": {
+    img: "info5.png",
+    title: "Catherine, Stella, David",
+    p1: "Our final artwork, The Blind Follower, is a culmination of all of our ideas to tell a story of mass miscommunication. It illustrates the religious-like blind faith we hold in the information we are fed by our devices. The sci-fi-esque glasses take this idea to its technological extreme, making our tech and its abundant misinformation the only thing we can see. The information in question is a dramatized version of the advertisements, fake news, and propaganda we are constantly exposed to."
+  },
+  "6": {
+    img: "info6.png",
+    title: "David, Rosemarie, Jo, Brianna",
+    p1: "This work reflects ideas important to the theme of information and communication because it depicts what it could look like if AI decided to take over and lock you out of the internet—more specifically, how AI would turn the internet into a social media platform where it could freely interact with itself.",
+    p2: "As people, we have specific platforms where we can socialize, create content, and share content. If there were a day when AI could completely take over the internet and turn it into its own social media playground, it would have the power to determine what is relevant, set the topic of conversation, and decide if anything crashes or thrives.",
+    p3: "Humans would only be able to witness their activity, and for the first time, they would be completely powerless."
+  },
+  "7": {
+    img: "info7.png",
+    title: "Ryan, Starr, Zhiyun",
+    p1: "Concept for a media site that adapts the content of its articles—headlines, images, text—to fit its users' beliefs. If two people clicked on the exact same link, both would find several differences in how the news article reported on the issue.",
+    p2: "This is meant to address fake news and misinformation spread using data surveillance. Political and social bias in news and other forms of communication can distort the truth, causing viewers to form more extreme, radical beliefs."
+  }
 };
 
 function buildGrid() {
@@ -159,20 +190,19 @@ function openModal(id) {
   const padId = String(id).padStart(2,'0');
   document.getElementById('modal-mod-label').textContent = `MOD·03 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
+
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="images/${d.img}" alt="artifact ${id}" onerror="this.outerHTML='<div class=modal-img-placeholder><span>image: ${d.img}</span></div>'">`;
   } else {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
+
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
     ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${d.p3 ? `<p>${d.p3}</p>` : ''}`;
+
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
 }
