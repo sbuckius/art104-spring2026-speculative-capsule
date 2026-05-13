@@ -46,9 +46,28 @@
   .adot { width:5px; height:5px; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); }
   .adot.dim { opacity:.14; }
   .mod-count { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:clamp(.85rem,1.5vw,1.3rem); line-height:1; margin-top:.3rem; text-shadow:0 0 12px currentColor; }
-  .mod-enter-btn { font-family:'Courier Prime',monospace; font-size:.42rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(200,196,255,.25); background:transparent; border:1px solid rgba(200,196,255,.15); padding:.28rem .7rem; margin-top:.35rem; text-decoration:none; transition:all .2s; cursor:pointer; clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); pointer-events:all; display:inline-block; }
-  .mod-enter-btn:hover { color:#fff; }
-
+  .mod-enter-btn {
+    font-family:'Rajdhani',sans-serif; font-weight:700;
+    font-size:clamp(.62rem,.92vw,.8rem); letter-spacing:.22em; text-transform:uppercase;
+    color:#fff;
+    background:rgba(0,0,0,.5);
+    border:1.5px solid currentColor;
+    padding:.45rem 1.2rem; margin-top:.5rem;
+    text-decoration:none; transition:all .22s; cursor:pointer;
+    clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    pointer-events:all; display:inline-block;
+    animation:btn-pulse 2.2s ease-in-out infinite;
+  }
+  .mod-enter-btn:hover {
+    background:rgba(255,255,255,.12);
+    box-shadow:0 0 20px currentColor, inset 0 0 10px rgba(255,255,255,.06);
+    letter-spacing:.28em;
+    animation:none;
+  }
+  @keyframes btn-pulse {
+    0%,100%{opacity:1;   box-shadow:0 0 10px currentColor;}
+    50%    {opacity:.6;  box-shadow:0 0 3px  currentColor;}
+  }
   @keyframes blink-slow{0%,100%{opacity:.7}50%{opacity:.15}}
 </style>
 </head>
@@ -389,10 +408,8 @@ function updateLabels() {
         ${buildDots(m.n, m.hx)}
         <div class="mod-count" style="color:#${m.hx}">${String(m.n).padStart(2,'0')}</div>
         <a class="mod-enter-btn" href="${m.href}"
-           style="border-color:rgba(${hexRgb(m.hx)},.35)"
-           onmouseover="this.style.borderColor='#${m.hx}';this.style.color='#${m.hx}'"
-           onmouseout="this.style.borderColor='rgba(${hexRgb(m.hx)},.35)';this.style.color='rgba(200,196,255,.25)'">
-          Enter →
+           style="color:#${m.hx};border-color:#${m.hx}">
+          ↗ Enter Module
         </a>`;
       container.appendChild(el);
     }
