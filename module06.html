@@ -64,10 +64,10 @@
   .modal-body { padding: 1.5rem 1.25rem; }
   .modal-body p { font-family: 'EB Garamond', serif; font-size: 0.95rem; line-height: 1.88; color: rgba(200,196,255,0.62); margin-bottom: 1rem; }
   .modal-body p:last-of-type { margin-bottom: 0; }
-  .modal-footnotes { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
-  .footnote-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
-  .modal-footnotes a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; margin-bottom: 0.3rem; opacity: 0.6; transition: opacity 0.2s; margin-right: 1rem; }
-  .modal-footnotes a:hover { opacity: 1; }
+  .modal-link { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(var(--cr),0.1); }
+  .link-label { font-family: 'Courier Prime', monospace; font-size: 0.48rem; letter-spacing: 0.28em; color: rgba(200,196,255,0.18); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .modal-link a { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Courier Prime', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--c); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+  .modal-link a:hover { opacity: 1; }
   footer { position: relative; z-index: 1; text-align: center; padding: 2rem; border-top: 1px solid rgba(var(--cr),0.08); font-family: 'Courier Prime', monospace; font-size: 0.5rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(200,196,255,0.12); }
 </style>
 </head>
@@ -123,12 +123,42 @@
 
 <script>
 const moduleData = {
-  "1": { img:"self1.png", title:"", p1:"Self1 — add student reflection here.", p2:"Self1 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "2": { img:"self2.png", title:"", p1:"Self2 — add student reflection here.", p2:"Self2 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "3": { img:"self3.png", title:"", p1:"Self3 — add student reflection here.", p2:"Self3 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "4": { img:"self4.png", title:"", p1:"Self4 — add student reflection here.", p2:"Self4 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "5": { img:"self5.png", title:"", p1:"Self5 — add student reflection here.", p2:"Self5 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" },
-  "6": { img:"self6.png", title:"", p1:"Self6 — add student reflection here.", p2:"Self6 — add notes or continuation here.", ref1:"https://example.com", ref2:"https://example.com" }
+  "1": {
+    img: "self1.png",
+    title: "Minh, Phin, Brianna, Ethan",
+    p1: "The speculative artwork presents an adaptive exoskeleton that grows, self-repairs, and learns from its environment. The system acts as both life support and a learning engine, designed to sustain intelligence and push human limits. It connects to posthumanist ideas where consciousness expands through technology and experience moves beyond the physical body.",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  },
+  "2": {
+    img: "self2.png",
+    title: "Emis, Chloe, Gab, Miah, Zhiyun",
+    p1: "Fantasy Ecosystem Simulator is the title of a potential virtual reality game. The core aspect of the game is to build your own ecosystem from scratch with custom-made organisms and see how it turns out in real time.",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  },
+  "3": {
+    img: "self3.png",
+    title: "Jo, Rosemarie, Christian, Rosa",
+    p1: "Our speculative artwork, \"Synthetic Amphibian,\" explores this reality by visualizing a robot that uses self-repairing cycles, autonomous decision making, and environmental adaptation—acting as a primary defense mechanism for local ecosystems.",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  },
+  "4": {
+    img: "self4.png",
+    title: "Catherine, Stella, David, Starr",
+    p1: "We envision our speculative artwork, \"Creatures, Not Animals,\" as a large-scale installation that recreates a zoo environment filled with a myriad of eerie creatures. These creatures are the results of an experiment to recreate the evolutionary process using classic animals. As with many experiments, there have been complications…",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  },
+  "5": {
+    img: "self5.png",
+    title: "Samantha, Ryan, David C., Tai",
+    p1: "Our experiences in the real world influence our actions in video games. Yet video games allow us to discover new aspects of ourselves through a fictional, yet similar experience.",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  },
+  "6": {
+    img: "self6.png",
+    title: "David P.",
+    p1: "My speculative artwork is called \"One Person In Many Coins,\" carrying four ideas as an expression of what the future of intercoupled connection to our own blood has in store for us. Once a user puts on a VR headset, they place one of their fingers onto a device wired to the VR system along with attachments at the shoulder, knees, and belt, creating a more physical experience. The goal of this art piece is to allow the user to experience different events of their ancestry. For example, if someone wants to see what life was like for their great-great-great-grandparent, the device allows them to witness that time era—not the grandparent themselves, but the environment, and how a version of themselves might have lived within it.",
+    link: "https://sbuckius.github.io/art104-spring2026-speculative-capsule/"
+  }
 };
 
 function buildGrid() {
@@ -158,20 +188,25 @@ function openModal(id) {
   const padId = String(id).padStart(2,'0');
   document.getElementById('modal-mod-label').textContent = `MOD·06 / ART·${padId}`;
   document.getElementById('modal-title').textContent = d.title || `Artifact ${padId}`;
+
   const wrap = document.getElementById('modal-img-wrap');
   if (d.img) {
     wrap.innerHTML = `<img class="modal-img" src="images/${d.img}" alt="artifact ${id}" onerror="this.outerHTML='<div class=modal-img-placeholder><span>image: ${d.img}</span></div>'">`;
   } else {
     wrap.innerHTML = `<div class="modal-img-placeholder"><span>image placeholder — ART·${padId}</span></div>`;
   }
+
+  const linkHTML = d.link ? `
+    <div class="modal-link">
+      <div class="link-label">◈ Link</div>
+      <a href="${d.link}" target="_blank" rel="noopener">↗ ${d.link}</a>
+    </div>` : '';
+
   document.getElementById('modal-text').innerHTML = `
     <p>${d.p1}</p>
     ${d.p2 ? `<p>${d.p2}</p>` : ''}
-    <div class="modal-footnotes">
-      <div class="footnote-label">◈ References</div>
-      ${d.ref1 ? `<a href="${d.ref1}" target="_blank" rel="noopener">↗ Source 01 — ${d.ref1}</a>` : ''}
-      ${d.ref2 ? `<a href="${d.ref2}" target="_blank" rel="noopener">↗ Source 02 — ${d.ref2}</a>` : ''}
-    </div>`;
+    ${linkHTML}`;
+
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop = 0;
 }
